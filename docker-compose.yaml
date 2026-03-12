@@ -1,0 +1,19 @@
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - SERVER_NAME=:80  # This tells FrankenPHP to use HTTP on port 80
+    ports:
+      - "8000:80"        # Map your computer's 8000 to the container's 80
+    volumes:
+      - ./php/:/usr/src/myapp
