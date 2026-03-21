@@ -19,10 +19,7 @@ class LoginController extends Controller
         ]);
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return
-            throw ValidationException::withMessages([
-                'email' => ['As credenciais fornecidas estao incorretas.'],
-            ]);
+            return response()->json(['message' => 'As credenciais fornecidas estao incorretas.'],401);
         }
 
 
