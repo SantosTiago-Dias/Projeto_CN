@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     public function login(Request $request): JsonResponse
     {
@@ -36,5 +36,10 @@ class LoginController extends Controller
     {
         $request->user()->tokens()->delete();
         return response()->noContent();
+    }
+
+    public function getAuthUser(Request $request): JsonResponse
+    {
+        return response()->json($request->user());
     }
 }

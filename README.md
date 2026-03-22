@@ -7,7 +7,7 @@ docker compose down -v
 Comando para correr o docker
 docker compose up -d --build
 
-Comando para correr as migrações em laralel:
+Comando para correr as migrações em larabel:
 docker exec backend php artisan migrate
 
 Ver as rotas:
