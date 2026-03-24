@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TaskRequest extends FormRequest
+class TaskCreateRequest extends FormRequest
 {
     public function rules(): array
     {
@@ -13,7 +12,7 @@ class TaskRequest extends FormRequest
             'title' => ['required', 'string'],
             'description' => ['required', 'string'],
             'priority'=>['required','in:HIGH,LOW,MEDIUM'],
-            'due_date' => ['required', 'date'],
+            'due_date' => ['required', 'date|after_or_equal:today'],
             'user_id' => ['required', 'exists:users,id'],
         ];
     }

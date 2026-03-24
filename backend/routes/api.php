@@ -16,7 +16,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::apiResource('/users', UserController::class)->middleware(IsAdmin::class);
     Route::apiResource('/tasks', TaskController::class)->middleware(IsAdmin::class);
     Route::get('/tasks/user/{worker_id}', [TaskController::class, 'getTaskUser']);
-    Route::put('/tasks/{id}/changestatus', [TaskController::class, 'changeStatus']);
+    Route::put('/tasks/{task}/changestatus', [TaskController::class, 'changeStatus']);
 });
 
 Route::get('/health',function(){

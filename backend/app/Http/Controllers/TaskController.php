@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TaskRequest;
+
+use App\Http\Requests\TaskCreateRequest;
+use App\Http\Requests\TaskEditRequest;
 use App\Http\Resources\TaskCollection;
 use App\Models\Task;
 use App\Models\User;
@@ -18,17 +20,18 @@ class TaskController extends Controller
         return new TaskCollection($tasks);
     }
 
-    public function getTaskUser(Request $request)
+    public function getTaskUser(Request $request):TaskCollection
     {
-        return $request->worker_id;
-        /*
+
+
         $user = User::all()->find($request->worker_id);
         if ($user == null) {
             abort(401,'Este utilizador não existe');
         }
+
         $tasks= Task::query()->where('worker_id', $user->id)->paginate();
         return new TaskCollection($tasks);
-        */
+
     }
 
     public function show(Task $task): JsonResponse
@@ -36,13 +39,23 @@ class TaskController extends Controller
         return response()->json($task);
     }
 
-    public function store(TaskRequest $request): JsonResponse
+    public function store(TaskCreateRequest $request)
     {
-        $request->task()->create($request->validated());
-        return new JsonResponse($request, 201);
+        $request->validated();
+        $task= Task::create([
+            'title'       => $request->title,
+            'description' => $request->description,
+            'status'      => 'PENDING',
+            'priority'    => $request->priority,
+            'due_date'    => $request->due_date,
+            'admin_id'    => $request->user()->id,
+            'worker_id'     => $request->user_id
+        ]);
+
+        return new JsonResponse($task);
     }
 
-    public function update(TaskRequest $request, Task $task): JsonResponse
+    public function update(TaskEditRequest $request, Task $task): JsonResponse
     {
         $task->update($request->validated());
         return response()->json($task);
@@ -56,10 +69,11 @@ class TaskController extends Controller
 
     public function changeStatus(Task $task,Request $request): JsonResponse
     {
-        $request->validate([
-            'status'=>'required','IN_PROGRESS', 'COMPLETED','CANCELLED'
+        $validated = $request->validate([
+            'status' => 'required|in:IN_PROGRESS,COMPLETED,CANCELLED'
         ]);
-        $task->update($request->validated());
+
+        $task->update($validated);
         return response()->json($task);
     }
 

@@ -11,8 +11,8 @@ class UserEditRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'role' => 'required|in:admin,worker',
+            'name' => 'sometimes',
+            'role' => 'sometimes|in:admin,worker',
         ];
     }
 }

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Task extends Model
 {
-    use HasFactory;
+    use HasFactory,softDeletes;
 
     protected $table = 'tasks';
 
@@ -18,5 +19,6 @@ class Task extends Model
         'priority',
         'due_date',
         'worker_id',
+        'admin_id',
     ];
 }
