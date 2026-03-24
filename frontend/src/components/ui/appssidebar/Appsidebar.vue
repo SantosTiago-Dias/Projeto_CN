@@ -1,19 +1,14 @@
 <script setup>
-import { LayoutDashboard, Users, Settings, LogOut, Trophy } from 'lucide-vue-next'
+import {  Users, LogOut, LayoutDashboardIcon } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
-
 import {toast} from "vue-sonner";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {useAuthStore} from "@/stores/auth.js";
+import {NavigationMenu, NavigationMenuLink} from "@/components/ui/navigation-menu/index.js";
 
 const authStore= useAuthStore()
 const router= useRouter()
-const menuItems = [
-  { name: 'Dashboard', icon: LayoutDashboard, active: true },
-  { name: 'Players', icon: Users, active: false },
-  { name: 'Tournaments', icon: Trophy, active: false },
-  { name: 'Settings', icon: Settings, active: false },
-]
+const route= useRoute()
 
 const logout = async () => {
   console.log('aqui')
@@ -21,8 +16,9 @@ const logout = async () => {
     router.push('/')
     toast.success('Logout efetuado com sucesso')
   })
-
 }
+
+const isActive = (path) => route.path === path
 
 
 </script>
@@ -33,17 +29,38 @@ const logout = async () => {
       <span class="font-bold text-lg tracking-tight">NOME</span>
     </div>
 
-    <nav class="flex-1 p-4 space-y-1">
-      <Button
-          v-for="item in menuItems"
-          :key="item.name"
-          :variant="item.active ? 'secondary' : 'ghost'"
-          class="w-full justify-start gap-3 h-11 px-3"
-      >
-        <component :is="item.icon" class="w-4 h-4" />
-        <span class="text-sm font-medium">{{ item.name }}</span>
-      </Button>
-    </nav>
+    <NavigationMenu orientation="vertical" class="flex-1 items-start justify-start max-w-none p-4">
+      <NavigationMenuList class="flex-col space-y-2 w-full space-x-0">
+
+        <NavigationMenuItem class="w-full">
+          <NavigationMenuLink as-child :active="isActive('/dashboard')">
+            <RouterLink
+                to="/dashboard"
+                class="flex items-center gap-3 px-3 py-3 rounded-md transition-colors w-full group"
+                :class="isActive('/dashboard') ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-100'"
+
+            >
+              <LayoutDashboardIcon class="w-4 h-4" />
+              <span class="text-sm font-medium">Tarefas</span>
+            </RouterLink>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem class="w-full">
+          <NavigationMenuLink as-child :active="isActive('/users')">
+            <RouterLink
+                to="/users"
+                class="flex items-center gap-3 px-3 py-3 rounded-md transition-colors w-full group"
+                :class="isActive('/users') ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-100'"
+            >
+              <Users class="w-4 h-4" />
+              <span class="text-sm font-medium">Utilizadores</span>
+            </RouterLink>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+      </NavigationMenuList>
+    </NavigationMenu>
 
     <div class="p-4 border-t">
       <Button variant="ghost" class="w-full justify-start gap-3 text-slate-500 hover:text-red-600 hover:bg-red-50" @click="logout">

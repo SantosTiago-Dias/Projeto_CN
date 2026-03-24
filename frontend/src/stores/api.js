@@ -16,17 +16,51 @@ export const useAPIStore = defineStore('api', () => {
 
     // AUTH
     const postLogin = async (credentials) => {
-        const response = await axios.post(`${API_BASE_URL}/login`, credentials).catch(error => { throw error.response.data.message })
+        const response = await axios.post(`${API_BASE_URL}/login`, credentials).catch(error => { throw error.response.data })
+        localStorage.setItem('token',response.data.token)
         return response.data
     }
     const postLogout = async () => {
+        localStorage.removeItem('token')
         await axios.post(`${API_BASE_URL}/logout`)
+    }
+
+    const me = () => {
+       return axios.get(`${API_BASE_URL}/me`)
+    }
+
+    /*USERS*/
+
+    const getAllUsers= () => {
+        return axios.get(`${API_BASE_URL}/users`)
+    }
+
+    const showUser= (id) => {
+        return axios.get(`${API_BASE_URL}/users/${id}`)
+    }
+
+    const storeUser = (data) =>{
+        return axios.post(`${API_BASE_URL}/users`, data).catch(error => { throw error.response.data })
+    }
+
+    const editUser = (id,data) =>{
+        return axios.put(`${API_BASE_URL}/users/`+id, data)
+    }
+
+    const deleteUser = (id) =>{
+        return axios.delete(`${API_BASE_URL}/users/${id}`)
     }
 
     return {
         postLogin,
         postLogout,
         setBearerToken,
-        removeBearerToken
+        removeBearerToken,
+        me,
+        getAllUsers,
+        showUser,
+        storeUser,
+        editUser,
+        deleteUser
     }
 })

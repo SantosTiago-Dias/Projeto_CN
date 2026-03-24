@@ -5,20 +5,12 @@ export const useAuthStore = defineStore('auth', () => {
     const apiStore = useAPIStore()
     const currentUser = ref(undefined)
     const login = async (credentials) => {
-        try
-        {
-            let data= await apiStore.postLogin(credentials)
-            let token = data.token
+        let data = await apiStore.postLogin(credentials)
 
-            apiStore.setBearerToken(token)
-        }
-        catch (error)
-        {
-            console.log(error)
-            throw error
-        }
-
-
+        let token = data.token
+        apiStore.setBearerToken(token)
+        await getUser()
+        return currentUser.value
 
     }
 
@@ -27,8 +19,41 @@ export const useAuthStore = defineStore('auth', () => {
 
     }
 
+    const loggedUser = async ()=>{
+        currentUser.value = await apiStore.me()
+    }
+
+    const isAuthenticated = async () => {
+        let token = localStorage.getItem('token')
+
+        if (!token) return null
+
+        try {
+            apiStore.setBearerToken(token)
+            const data = await apiStore.me()
+
+            currentUser.value = data.data
+            return true
+        } catch (error) {
+            localStorage.removeItem('token')
+            return false
+        }
+    }
+
+    const getUser = async () => {
+        try {
+            const data = await apiStore.me()
+            currentUser.value = data.data
+        } catch (error) {
+            throw error
+        }
+    }
+
     return{
         login,
-        logout
+        logout,
+        loggedUser,
+        isAuthenticated,
+        getUser
     }
 })

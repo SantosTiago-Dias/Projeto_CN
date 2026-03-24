@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserEditRequest;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Resources\UserCollection;
 use App\Models\User;
@@ -28,9 +29,8 @@ class UserController extends Controller
         return new JsonResponse($request, 201);
     }
 
-    public function update(User $user, UserCreateRequest $request): JsonResponse
+    public function update(User $user, UserEditRequest $request): JsonResponse
     {
-        //TODO:POR ISTO DPS PARA TANTO O ADMIN COM O PROPRIO USER PODEREM ALTERAR
         $user->update($request->validated());
         return response()->json($user);
 

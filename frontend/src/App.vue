@@ -54,8 +54,8 @@ const isAuthPage = computed(() => {
     </main>
   </div>
 </template>
+
 <style>
-/* Reset body to ensure no weird white gaps */
 body {
   margin: 0;
   overflow-x: hidden;

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@kalimahapps/vue-icons": "^1.9.5",
     "@popperjs/core": "^2.11.8",
     "@tailwindcss/vite": "^4.2.2",
     "@vueuse/core": "^14.2.1",

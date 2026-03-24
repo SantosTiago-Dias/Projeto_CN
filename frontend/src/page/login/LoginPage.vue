@@ -24,7 +24,7 @@ const onSubmit = async () => {
       return `Login efetuado com sucesso`
     },
     error: (data: any) => {
-      return data
+      return data.message
     },
   });
 }
