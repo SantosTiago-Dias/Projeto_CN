@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class TaskCreateRequest extends FormRequest
 {
@@ -12,8 +13,8 @@ class TaskCreateRequest extends FormRequest
             'title' => ['required', 'string'],
             'description' => ['required', 'string'],
             'priority'=>['required','in:HIGH,LOW,MEDIUM'],
-            'due_date' => ['required', 'date|after_or_equal:today'],
-            'user_id' => ['required', 'exists:users,id'],
+            'due_date' => ['sometimes', Rule::date()->afterOrEqual(today())],
+            'worker_id' => ['required', 'exists:users,id'],
         ];
     }
 }

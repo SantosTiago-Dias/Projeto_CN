@@ -9,6 +9,11 @@ export const useUserStore = defineStore('user',()=>{
         return response.data
     }
 
+    const getAllWorkers = async () => {
+        let response = await apiStore.getAllWorkers()
+        return response.data
+    }
+
     const showUser = async (id) =>{
         let response = await apiStore.showUser(id)
         return response.data
@@ -31,6 +36,7 @@ export const useUserStore = defineStore('user',()=>{
 
     return {
         getAllUsers,
+        getAllWorkers,
         showUser,
         storeUser,
         editUser,

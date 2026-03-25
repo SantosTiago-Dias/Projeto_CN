@@ -35,6 +35,10 @@ export const useAPIStore = defineStore('api', () => {
         return axios.get(`${API_BASE_URL}/users`)
     }
 
+    const getAllWorkers = () =>{
+        return axios.get(`${API_BASE_URL}/users/workers`)
+    }
+
     const showUser= (id) => {
         return axios.get(`${API_BASE_URL}/users/${id}`)
     }
@@ -44,11 +48,42 @@ export const useAPIStore = defineStore('api', () => {
     }
 
     const editUser = (id,data) =>{
-        return axios.put(`${API_BASE_URL}/users/`+id, data)
+        return axios.put(`${API_BASE_URL}/users/${id}`, data).catch(error => { throw error.response.data })
     }
 
     const deleteUser = (id) =>{
         return axios.delete(`${API_BASE_URL}/users/${id}`)
+    }
+
+    /*USERS*/
+
+    const getAllTasks= () => {
+        return axios.get(`${API_BASE_URL}/tasks`)
+    }
+
+    const showTask = (id) =>{
+        return axios.get(`${API_BASE_URL}/tasks/${id}`)
+    }
+    const showUserTasks = (id) =>{
+        return axios.get(`${API_BASE_URL}/tasks/user/${id}`)
+    }
+
+    const storeTask =  (data) =>{
+        return axios.post(`${API_BASE_URL}/tasks`, data).catch(error => { throw error.response.data })
+    }
+
+    const editTask = (id,data) =>{
+        console.log(data)
+        return axios.put(`${API_BASE_URL}/tasks/${id}`, data).catch(error => { throw error.response.data })
+    }
+
+    const changeStatusTask = (id,data) =>{
+        return axios.put(`${API_BASE_URL}/tasks/${id}/changestatus`, data)
+    }
+
+
+    const deleteTask = (id) =>{
+        return axios.delete(`${API_BASE_URL}/tasks/${id}`)
     }
 
     return {
@@ -58,9 +93,17 @@ export const useAPIStore = defineStore('api', () => {
         removeBearerToken,
         me,
         getAllUsers,
+        getAllWorkers,
         showUser,
         storeUser,
         editUser,
-        deleteUser
+        deleteUser,
+        getAllTasks,
+        showTask,
+        showUserTasks,
+        storeTask,
+        editTask,
+        changeStatusTask,
+        deleteTask
     }
 })

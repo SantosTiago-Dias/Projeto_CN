@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class TaskEditRequest extends FormRequest
 {
@@ -12,8 +13,9 @@ class TaskEditRequest extends FormRequest
             'title' => ['sometimes', 'string'],
             'description' => ['sometimes', 'string'],
             'priority'=>['sometimes','in:HIGH,LOW,MEDIUM'],
-            'due_date' => ['sometimes', 'date|after_or_equal:today'],
-            'user_id' => ['sometimes', 'exists:users,id'],
+            'status' => 'required|in:PENDING,IN_PROGRESS,COMPLETED,CANCELLED',
+            'due_date' => ['sometimes', Rule::date()->afterOrEqual(today())],
+            'worker_id' => ['sometimes', 'exists:users,id'],
         ];
     }
 }

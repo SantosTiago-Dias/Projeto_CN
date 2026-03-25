@@ -17,6 +17,11 @@ class UserController extends Controller
         return new UserCollection(User::all());
     }
 
+    public function getWorkers()
+    {
+        return User::where('role', 'worker')->select('id', 'name')->get();
+    }
+
     public function show(User $user): JsonResponse
     {
         return response()->json($user);

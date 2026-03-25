@@ -13,10 +13,13 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/me', [AuthController::class, 'getAuthUser']);
     Route::post('/logout',   [AuthController::class, 'logout']);
+
+    Route::get('/users/workers', [UserController::class, 'getWorkers'])->middleware(IsAdmin::class);
     Route::apiResource('/users', UserController::class)->middleware(IsAdmin::class);
-    Route::apiResource('/tasks', TaskController::class)->middleware(IsAdmin::class);
+
     Route::get('/tasks/user/{worker_id}', [TaskController::class, 'getTaskUser']);
     Route::put('/tasks/{task}/changestatus', [TaskController::class, 'changeStatus']);
+    Route::apiResource('/tasks', TaskController::class)->middleware(IsAdmin::class);
 });
 
 Route::get('/health',function(){

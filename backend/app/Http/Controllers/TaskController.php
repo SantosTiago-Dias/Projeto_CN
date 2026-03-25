@@ -16,8 +16,13 @@ class TaskController extends Controller
     //
     public function index(): TaskCollection
     {
-        $tasks= Task::query()->paginate();
+        $tasks= Task::query()->orderBy('due_date','desc')->paginate();
         return new TaskCollection($tasks);
+    }
+
+    public function show(Task $task): JsonResponse
+    {
+        return response()->json($task);
     }
 
     public function getTaskUser(Request $request):TaskCollection
@@ -34,11 +39,6 @@ class TaskController extends Controller
 
     }
 
-    public function show(Task $task): JsonResponse
-    {
-        return response()->json($task);
-    }
-
     public function store(TaskCreateRequest $request)
     {
         $request->validated();
@@ -49,7 +49,7 @@ class TaskController extends Controller
             'priority'    => $request->priority,
             'due_date'    => $request->due_date,
             'admin_id'    => $request->user()->id,
-            'worker_id'     => $request->user_id
+            'worker_id'     => $request->worker_id
         ]);
 
         return new JsonResponse($task);
@@ -61,12 +61,6 @@ class TaskController extends Controller
         return response()->json($task);
     }
 
-    public function destroy(Task $task): JsonResponse
-    {
-        $task->delete();
-        return response()->json(null, 204);
-    }
-
     public function changeStatus(Task $task,Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -75,6 +69,12 @@ class TaskController extends Controller
 
         $task->update($validated);
         return response()->json($task);
+    }
+
+    public function destroy(Task $task): JsonResponse
+    {
+        $task->delete();
+        return response()->json(null,204);
     }
 
 }

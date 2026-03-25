@@ -1,5 +1,5 @@
 <script setup>
-import {  Users, LogOut, LayoutDashboardIcon } from 'lucide-vue-next'
+import {  Users, LogOut, LayoutDashboardIcon,ListPlusIcon } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import {toast} from "vue-sonner";
 import {useRoute, useRouter} from "vue-router";
@@ -55,6 +55,19 @@ const isActive = (path) => route.path === path
             >
               <Users class="w-4 h-4" />
               <span class="text-sm font-medium">Utilizadores</span>
+            </RouterLink>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem class="w-full">
+          <NavigationMenuLink as-child :active="isActive('/tasks')">
+            <RouterLink
+                to="/tasks"
+                class="flex items-center gap-3 px-3 py-3 rounded-md transition-colors w-full group"
+                :class="isActive('/tasks') ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-100'"
+            >
+              <ListPlusIcon class="w-4 h-4" />
+              <span class="text-sm font-medium">Tarefas</span>
             </RouterLink>
           </NavigationMenuLink>
         </NavigationMenuItem>

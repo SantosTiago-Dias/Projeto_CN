@@ -6,6 +6,9 @@ import {useAuthStore} from "@/stores/auth.js";
 import {toast} from "vue-sonner";
 import CreateUser from "@/page/users/createUser.vue";
 import Edituser from "@/page/users/edituser.vue";
+import allTasks from "@/page/tasks/allTasks.vue";
+import editTask from "@/page/tasks/editTask.vue";
+import createTask from "@/page/tasks/createTask.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +40,25 @@ const router = createRouter({
       path:'/user/edit/:id',
       name:'user/edit',
       component:Edituser,
+      props:true,
+      meta:{requiresAuth: true}
+    },
+    {
+      path:'/tasks',
+      name:'tasks',
+      component:allTasks,
+      meta:{ requiresAuth: true }
+    },
+    {
+      path:'/task/create',
+      name:'task/create',
+      component:createTask  ,
+      meta:{ requiresAuth: true }
+    },
+    {
+      path:'/task/edit/:id',
+      name:'task/edit',
+      component:editTask,
       props:true,
       meta:{requiresAuth: true}
     }
