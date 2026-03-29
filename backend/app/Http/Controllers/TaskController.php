@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TaskCreateRequest;
 use App\Http\Requests\TaskEditRequest;
 use App\Http\Resources\TaskCollection;
+use App\Jobs\NotificationJob;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -20,37 +21,55 @@ class TaskController extends Controller
         return new TaskCollection($tasks);
     }
 
+
     public function show(Task $task): JsonResponse
     {
         return response()->json($task);
     }
 
-    public function getTaskUser(Request $request):TaskCollection
+    public function getTaskUser(): TaskCollection
     {
-
-
-        $user = User::all()->find($request->worker_id);
-        if ($user == null) {
-            abort(401,'Este utilizador não existe');
+        $user = auth()->user();
+        if ($user->isAdmin())
+        {
+            abort(403);
         }
 
-        $tasks= Task::query()->where('worker_id', $user->id)->paginate();
+        $tasks = Task::where('worker_id', $user->id)->whereDate('due_date', today())->orderBy('due_date', 'desc')->get();
+
         return new TaskCollection($tasks);
 
     }
 
-    public function store(TaskCreateRequest $request)
+    public function getTaskToday(): TaskCollection
+    {
+        $user = auth()->user();
+        if ($user->isAdmin())
+        {
+            abort(403);
+        }
+
+        $tasks = Task::where('worker_id', $user->id)->whereDate('due_date', today())->orderBy('due_date', 'desc')->get();
+
+        return new TaskCollection($tasks);
+
+    }
+
+    public function store(TaskCreateRequest $request): JsonResponse
     {
         $request->validated();
         $task= Task::create([
             'title'       => $request->title,
             'description' => $request->description,
-            'status'      => 'PENDING',
+            'status'      => $request->status,
             'priority'    => $request->priority,
             'due_date'    => $request->due_date,
             'admin_id'    => $request->user()->id,
             'worker_id'     => $request->worker_id
         ]);
+
+        NotificationJob::dispatch($request->user()->id,$request->worker_id,$task);
+
 
         return new JsonResponse($task);
     }
@@ -68,6 +87,7 @@ class TaskController extends Controller
         ]);
 
         $task->update($validated);
+        NotificationJob::dispatch($task->admin_id,$request->user()->id,$task);
         return response()->json($task);
     }
 

@@ -13,7 +13,7 @@ class TaskEditRequest extends FormRequest
             'title' => ['sometimes', 'string'],
             'description' => ['sometimes', 'string'],
             'priority'=>['sometimes','in:HIGH,LOW,MEDIUM'],
-            'status' => 'required|in:PENDING,IN_PROGRESS,COMPLETED,CANCELLED',
+            'status' => 'sometimes|in:PENDING,IN_PROGRESS,COMPLETED,CANCELLED',
             'due_date' => ['sometimes', Rule::date()->afterOrEqual(today())],
             'worker_id' => ['sometimes', 'exists:users,id'],
         ];

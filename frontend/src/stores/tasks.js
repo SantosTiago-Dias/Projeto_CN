@@ -30,8 +30,8 @@ export const useTasksStore = defineStore('tasks',()=>{
         return response
     }
 
-    const changeStatusTask = async (id,data) =>{
-        let response = await apiStore.changeStatusTask(id,data)
+    const changeStatusTask = async (id,status) =>{
+        let response = await apiStore.changeStatusTask(id,status)
         return response
     }
 

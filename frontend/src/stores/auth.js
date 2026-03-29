@@ -1,6 +1,6 @@
 import { useAPIStore } from './api'
 import {defineStore} from "pinia";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 export const useAuthStore = defineStore('auth', () => {
     const apiStore = useAPIStore()
     const currentUser = ref(undefined)
@@ -40,6 +40,11 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
+    const isAdmin = computed(() => {
+        console.log(currentUser.value.role === 'admin')
+        return currentUser.value?.role === 'admin'
+    })
+
     const getUser = async () => {
         try {
             const data = await apiStore.me()
@@ -54,6 +59,8 @@ export const useAuthStore = defineStore('auth', () => {
         logout,
         loggedUser,
         isAuthenticated,
-        getUser
+        isAdmin,
+        getUser,
+        currentUser
     }
 })

@@ -11,6 +11,7 @@
   "dependencies": {
     "@kalimahapps/vue-icons": "^1.9.5",
     "@popperjs/core": "^2.11.8",
+    "@socket.io/redis-adapter": "^8.3.0",
     "@tailwindcss/vite": "^4.2.2",
     "@vueuse/core": "^14.2.1",
     "axios": "^1.13.6",
@@ -20,7 +21,10 @@
     "lucide-vue-next": "^0.577.0",
     "pinia": "^3.0.4",
     "radix-vue": "^1.9.17",
+    "redis": "^5.11.0",
     "reka-ui": "^2.9.2",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3",
     "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.2.2",
     "vaul": "^1.1.2",

@@ -47,7 +47,7 @@ const isActive = (path) => route.path === path
         </NavigationMenuItem>
 
         <NavigationMenuItem class="w-full">
-          <NavigationMenuLink as-child :active="isActive('/users')">
+          <NavigationMenuLink as-child :active="isActive('/users')" v-if="authStore.isAdmin">
             <RouterLink
                 to="/users"
                 class="flex items-center gap-3 px-3 py-3 rounded-md transition-colors w-full group"
@@ -60,7 +60,7 @@ const isActive = (path) => route.path === path
         </NavigationMenuItem>
 
         <NavigationMenuItem class="w-full">
-          <NavigationMenuLink as-child :active="isActive('/tasks')">
+          <NavigationMenuLink as-child :active="isActive('/tasks')" v-if="authStore.isAdmin">
             <RouterLink
                 to="/tasks"
                 class="flex items-center gap-3 px-3 py-3 rounded-md transition-colors w-full group"

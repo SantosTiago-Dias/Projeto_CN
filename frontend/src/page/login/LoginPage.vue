@@ -20,7 +20,11 @@ const onSubmit = async () => {
   toast.promise(() => authStore.login(formData.value), {
     loading: 'Loading...',
     success: () => {
-      router.push('/dashboard')
+      if (authStore.isAdmin) {
+        router.push({ name: 'dashboardAdmin' })
+      } else {
+        router.push({ name: 'dashboard' })
+      }
       return `Login efetuado com sucesso`
     },
     error: (data: any) => {

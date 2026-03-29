@@ -22,6 +22,14 @@ services:
     depends_on:
       - db
 
+
+  queue-worker:
+    container_name: queue-worker
+    build: ./backend
+    command: php artisan queue:work --verbose --tries=3 --timeout=60
+    depends_on: [ db, redis ]
+    restart: unless-stopped
+
   db:
     container_name: db
     build:
@@ -38,6 +46,12 @@ services:
       timeout: 5s
       retries: 3
       start_period: 30s
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    ports:
+      - "6379:6379"
 
   adminer:
     container_name: adminer

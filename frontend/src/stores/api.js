@@ -64,8 +64,8 @@ export const useAPIStore = defineStore('api', () => {
     const showTask = (id) =>{
         return axios.get(`${API_BASE_URL}/tasks/${id}`)
     }
-    const showUserTasks = (id) =>{
-        return axios.get(`${API_BASE_URL}/tasks/user/${id}`)
+    const showUserTasks = () =>{
+        return axios.get(`${API_BASE_URL}/mytasks`)
     }
 
     const storeTask =  (data) =>{
@@ -78,7 +78,9 @@ export const useAPIStore = defineStore('api', () => {
     }
 
     const changeStatusTask = (id,data) =>{
-        return axios.put(`${API_BASE_URL}/tasks/${id}/changestatus`, data)
+        return axios.put(`${API_BASE_URL}/tasks/${id}/changestatus`, {
+            'status':data
+        })
     }
 
 

@@ -30,7 +30,7 @@ const handleCreate = async () => {
   try {
     let res = await tasksStore.storeTask(task.value)
 
-    if (res.status === 201) {
+    if (res.status === 200) {
       toast.success('Tarefa criada com sucesso!')
       router.push('/tasks')
     } else {
