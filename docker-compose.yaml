@@ -25,10 +25,22 @@ services:
 
   queue-worker:
     container_name: queue-worker
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     command: php artisan queue:work --verbose --tries=3 --timeout=60
-    depends_on: [ db, redis ]
+    depends_on: [ db, redis, backend ]
     restart: unless-stopped
+
+  reverb:
+    container_name: reverb
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: php artisan reverb:start --host=0.0.0.0 --port=6001
+    ports:
+      - "6001:6001"
+    depends_on: [ db, redis, backend ]
 
   db:
     container_name: db

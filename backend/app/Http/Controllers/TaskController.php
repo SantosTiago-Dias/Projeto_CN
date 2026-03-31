@@ -87,7 +87,7 @@ class TaskController extends Controller
         ]);
 
         $task->update($validated);
-        NotificationJob::dispatch($task->admin_id,$request->user()->id,$task);
+        NotificationJob::dispatch($task->worker_id,$task->admin_id,$task);
         return response()->json($task);
     }
 

@@ -1,19 +1,54 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth'
 import {useRoute, useRouter} from 'vue-router'
-import {computed, ref} from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
 import AppSidebar from '@/components/ui/appssidebar/Appsidebar.vue'
 import {Toaster} from "vue-sonner";
-import {Bell, Search} from "lucide-vue-next";
 import {Button} from "@/components/ui/button/index.ts";
-import {Input} from "@/components/ui/input/index.ts";
+import NotificationBell from "@/components/ui/notification/Notification.vue";
+import {useNotificaitonStore} from "@/stores/notification.js";
+import {laravelEcho} from "@/websocket/echo.js";
+import {useTasksStore} from "@/stores/tasks.js";
 
 const route = useRoute()
+const authStore = useAuthStore()
+const notiStore = useNotificaitonStore()
+const taskStore = useTasksStore()
+const notifications = ref([])
+
 
 const isAuthPage = computed(() => {
 
   return route.path === '/'
 })
+
+const removeNotification = (id) => {
+  notifications.value = notifications.value.filter(n => n.id !== id)
+}
+
+onMounted(() => {
+  const unwatch = watch(
+      () => authStore.currentUser?.id,
+      async (userId) => {
+        let auth = await authStore.isAuthenticated()
+        if (userId && auth) {
+          notifications.value = await notiStore.notifications();
+
+          laravelEcho.private(`user.${userId}`)
+              .listen('NotificationSent', async (e) => {
+                notifications.value.push(e);
+                console.log(authStore.currentUser)
+                if (authStore.isAdmin)
+                {
+                  await taskStore.showUserTasks();
+                }
+
+              });
+        }
+      },
+      { immediate: true }
+  );
+});
 </script>
 
 <template>
@@ -30,15 +65,11 @@ const isAuthPage = computed(() => {
 
       <header class="h-16 border-b bg-white flex items-center justify-between px-8 sticky top-0 z-10">
         <div class="flex items-center gap-4 w-full max-w-md">
-          <div class="relative w-full">
-            <Search class="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search everything..." class="pl-10 bg-slate-50 border-none focus-visible:ring-1" />
-          </div>
         </div>
 
         <div class="flex items-center gap-4">
           <Button variant="outline" size="icon" class="relative">
-            <Bell class="h-4 w-4" />
+            <NotificationBell :notifications="notifications" @remove-notification="removeNotification" />
             <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
           </Button>
           <div class="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs">

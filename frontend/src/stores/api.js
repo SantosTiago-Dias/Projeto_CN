@@ -88,6 +88,14 @@ export const useAPIStore = defineStore('api', () => {
         return axios.delete(`${API_BASE_URL}/tasks/${id}`)
     }
 
+    const getNotifications = () =>{
+        return axios.get(`${API_BASE_URL}/notifications`)
+    }
+
+    const markAsRead = (id) => {
+       return axios.post(`${API_BASE_URL}/notifications/${id}`)
+    }
+
     return {
         postLogin,
         postLogout,
@@ -106,6 +114,8 @@ export const useAPIStore = defineStore('api', () => {
         storeTask,
         editTask,
         changeStatusTask,
-        deleteTask
+        deleteTask,
+        getNotifications,
+        markAsRead
     }
 })

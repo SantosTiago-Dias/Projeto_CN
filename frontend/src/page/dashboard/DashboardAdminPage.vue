@@ -15,6 +15,8 @@ const teamOverView = [
   { id: 2, name: 'Maria Sousa', tasks: 2, status: 'Available' },
   { id: 3, name: 'Ricardo Pereira', tasks: 0, status: 'Free' },
 ]
+
+
 </script>
 
 <template>

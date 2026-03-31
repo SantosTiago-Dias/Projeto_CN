@@ -31,11 +31,10 @@ class NotificationJob implements ShouldQueue
     public function handle(): void
     {
         $notification = Notification::create([
-            'createdby' => $this->createdby,
-            'recivedby' => $this->recivedby,
+            'from' => $this->createdby,
+            'to' => $this->recivedby,
             'task_id' => $this->task->id,
             'title' => $this->task->title,
-            'description' => $this->task->description,
             'status' => $this->task->status,
         ]);
 

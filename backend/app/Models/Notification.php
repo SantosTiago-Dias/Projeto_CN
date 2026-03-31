@@ -9,12 +9,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Notification extends Model
 {
     protected $fillable = [
-        'createdby',
-        'recivedby',
+        'from',
+        'to',
         'task_id',
         'title',
-        'body',
-        'type',
         'status',
         'read',
     ];
@@ -33,12 +31,12 @@ class Notification extends Model
         return $this->belongsTo(Task::class);
     }
 
-    public function notifcationsNotread($query)
+    public function scopeNotificationsNotRead($query)
     {
         return $query->where('read', false);
     }
 
-    public function markAsRead()
+    public function markAsRead(): void
     {
         $this->update(['read' => true]);
     }

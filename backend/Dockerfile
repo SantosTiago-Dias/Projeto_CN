@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
 RUN install-php-extensions pdo_mysql gd intl zip opcache
 
 RUN pecl install redis && docker-php-ext-enable redis
+RUN docker-php-ext-install pcntl
 
 
 # Build stage

@@ -1,8 +1,10 @@
 import {defineStore} from "pinia";
 import {useAPIStore} from "@/stores/api.js";
+import {ref} from "vue";
 
 export const useTasksStore = defineStore('tasks',()=>{
     const apiStore = useAPIStore()
+    let tasks = ref([])
 
     const getAllTasks = async () =>{
         let response = await apiStore.getAllTasks()
@@ -16,7 +18,7 @@ export const useTasksStore = defineStore('tasks',()=>{
 
     const showUserTasks = async (id) =>{
         let response = await apiStore.showUserTasks(id)
-        return response.data
+        tasks.value= response.data.data
     }
 
     const storeTask = async (data) =>{
@@ -47,6 +49,7 @@ export const useTasksStore = defineStore('tasks',()=>{
         storeTask,
         editTask,
         changeStatusTask,
-        deleteTask
+        deleteTask,
+        tasks
     }
 })

@@ -11,16 +11,16 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NotificationSent
+class NotificationSent implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets;
 
     /**
      * Create a new event instance.
      */
     public function __construct(public Notification $notification)
     {
-        //
+        $this->notification = $notification;
     }
 
     /**
@@ -31,7 +31,7 @@ class NotificationSent
     public function broadcastOn(): Channel
     {
         // canal privado por utilizador — só o destinatário recebe
-        return new PrivateChannel('user.' . $this->notification->recivedby);
+        return new PrivateChannel('user.' . $this->notification->to);
     }
 
     public function broadcastWith(): array
@@ -39,9 +39,9 @@ class NotificationSent
         return [
             'id'    => $this->notification->id,
             'title' => $this->notification->title,
-            'body'  => $this->notification->body,
+            'task_id' => $this->notification->task->id,
             'status'  => $this->notification->status,
-            'read'  => $this->notification->read,
+            'from' => $this->notification->from
         ];
     }
 }

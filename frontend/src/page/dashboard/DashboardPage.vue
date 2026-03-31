@@ -12,24 +12,25 @@ import {toast} from "vue-sonner";
 
 const authStore = useAuthStore()
 const tasksStore = useTasksStore()
-const tasks = ref([])
+
+const tasks = computed(() => tasksStore.tasks)
 
 onMounted(async () => {
-  getmyTasks()
+  await getmyTasks()
 })
 
 const getmyTasks = async () => {
-  let res = await tasksStore.showUserTasks()
-  tasks.value = res.data
+  // Store action now handles the data assignment internally
+  await tasksStore.showUserTasks()
 }
 
 const stats = computed(() => {
-
+  const list = tasks.value || []
   return {
-    total: tasks.value.length,
-    completed: tasks.value.filter(t => t.status === 'COMPLETED').length,
-    pending: tasks.value.filter(t => t.status === 'PENDING' || t.status === 'IN_PROGRESS').length,
-    urgent: tasks.value.filter(t => t.priority === 'HIGH' && t.status !== 'COMPLETED').length
+    total: list.length,
+    completed: list.filter(t => t.status === 'COMPLETED').length,
+    pending: list.filter(t => t.status === 'PENDING' || t.status === 'IN_PROGRESS').length,
+    urgent: list.filter(t => t.priority === 'HIGH' && t.status !== 'COMPLETED').length
   }
 })
 
