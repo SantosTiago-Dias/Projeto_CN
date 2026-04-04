@@ -1,12 +1,27 @@
 
 services:
+  proxy-manager:
+    container_name: proxy-manager
+    image: 'jc21/nginx-proxy-manager:latest'
+    ports:
+      - '80:80'
+      - '443:443'
+      - '81:81'
+    volumes:
+      - ./data/npm:/data
+      - ./data/letsencrypt:/etc/letsencrypt
+
   frontend:
     container_name: frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    ports:
-      - "8080:80"
+      args:
+        - VITE_BASE_URL=http://api.meicm.pt
+        - VITE_REVERB_HOST=reverb.meicm.pt
+        - VITE_REVERB_PORT=80
+        - VITE_REVERB_SCHEME=http
+        - VITE_REVERB_APP_KEY=my-key
     depends_on:
       - backend
 
@@ -17,8 +32,6 @@ services:
       dockerfile: Dockerfile
     environment:
       - SERVER_NAME=:80
-    ports:
-      - "8000:80"
     depends_on:
       - db
 
@@ -38,8 +51,6 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     command: php artisan reverb:start --host=0.0.0.0 --port=6001
-    ports:
-      - "6001:6001"
     depends_on: [ db, redis, backend ]
 
   db:

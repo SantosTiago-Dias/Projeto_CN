@@ -2034,6 +2034,42 @@
         <option name="homepage" value="https://tailgrids.com" />
         <option name="urlTemplate" value="https://tailgrids.com/docs/r/{name}.json" />
       </RegistryConfigState>
+      <RegistryConfigState>
+        <option name="id" value="central-flightcn" />
+        <option name="name" value="Flightcn" />
+        <option name="namespace" value="@flightcn" />
+        <option name="baseUrl" value="https://flightcn.yencheng.dev/r" />
+        <option name="stylePath" value="/{name}.json" />
+        <option name="type" value="community" />
+        <option name="enabled" value="false" />
+        <option name="description" value="Flight routes on interactive maps with great-circle arcs, airport markers, multi-leg journeys, and optional animation, built for mapcn." />
+        <option name="homepage" value="https://flightcn.yencheng.dev" />
+        <option name="urlTemplate" value="https://flightcn.yencheng.dev/r/{name}.json" />
+      </RegistryConfigState>
+      <RegistryConfigState>
+        <option name="id" value="central-shark" />
+        <option name="name" value="Shark" />
+        <option name="namespace" value="@shark" />
+        <option name="baseUrl" value="https://shark.vini.one/r" />
+        <option name="stylePath" value="/{name}.json" />
+        <option name="type" value="community" />
+        <option name="enabled" value="false" />
+        <option name="description" value="shadcn/ui-style components built on Ark UI." />
+        <option name="homepage" value="https://shark.vini.one" />
+        <option name="urlTemplate" value="https://shark.vini.one/r/{name}.json" />
+      </RegistryConfigState>
+      <RegistryConfigState>
+        <option name="id" value="central-mksingh" />
+        <option name="name" value="Mksingh" />
+        <option name="namespace" value="@mksingh" />
+        <option name="baseUrl" value="https://mksingh.dev/r" />
+        <option name="stylePath" value="/{name}.json" />
+        <option name="type" value="community" />
+        <option name="enabled" value="false" />
+        <option name="description" value="A personal registry of production-ready ShadCN components and utilities. Everything is built to drop into your existing ShadCN project with no extra setup." />
+        <option name="homepage" value="https://mksingh.dev/docs" />
+        <option name="urlTemplate" value="https://mksingh.dev/r/{name}.json" />
+      </RegistryConfigState>
     </registryConfigs>
   </component>
 </project>

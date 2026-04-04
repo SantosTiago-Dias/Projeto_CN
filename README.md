@@ -12,3 +12,11 @@ docker exec backend php artisan migrate
 
 Ver as rotas:
 docker compose exec backend php artisan route:list
+
+Portas Usadas
+
+Frontend:80
+
+Backend:8000
+
+webSocket:6001/80
