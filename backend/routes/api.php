@@ -13,6 +13,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
+    Route::get('/weather', [App\Http\Controllers\WeatherController::class, 'getCurrentWeather']);
     Route::get('/me', [AuthController::class, 'getAuthUser']);
     Route::post('/logout',   [AuthController::class, 'logout']);
 
@@ -26,6 +27,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/notifications', [NotificationController::class, 'index']);
     Route::post('/notifications/{notification}', [NotificationController::class, 'markAsRead']);
     Broadcast::routes(['middleware' => ['auth:sanctum']]);
+
 });
 
 Route::get('/health',function(){

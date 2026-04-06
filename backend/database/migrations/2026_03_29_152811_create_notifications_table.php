@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('from')->references('id')->on('users');
-            $table->foreignId('to')->references('id')->on('users');
-            $table->foreignId('task_id')->references('id')->on('tasks');
+            $table->foreignId('from')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreignId('to')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreignId('task_id')->references('id')->on('tasks')->cascadeOnDelete();
             $table->string('title');
             $table->enum('status', ['PENDING', 'IN_PROGRESS', 'COMPLETED','CANCELLED'])->default('PENDING');
             $table->boolean('read')->default(false);

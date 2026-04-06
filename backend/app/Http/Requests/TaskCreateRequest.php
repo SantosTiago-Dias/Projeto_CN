@@ -15,6 +15,7 @@ class TaskCreateRequest extends FormRequest
             'priority'=>['required','in:HIGH,LOW,MEDIUM'],
             'status' => 'required|in:PENDING,IN_PROGRESS',
             'due_date' => ['sometimes', Rule::date()->afterOrEqual(today())],
+            'outside' => ['required','boolean'],
             'worker_id' => ['required', 'exists:users,id'],
         ];
     }

@@ -64,6 +64,7 @@ class TaskController extends Controller
             'status'      => $request->status,
             'priority'    => $request->priority,
             'due_date'    => $request->due_date,
+            'outside' => $request->outside,
             'admin_id'    => $request->user()->id,
             'worker_id'     => $request->worker_id
         ]);
@@ -83,7 +84,8 @@ class TaskController extends Controller
     public function changeStatus(Task $task,Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'status' => 'required|in:IN_PROGRESS,COMPLETED,CANCELLED'
+            'status' => 'required|in:IN_PROGRESS,COMPLETED,CANCELLED',
+            'reason_cancelled' => 'required_if:status,CANCELLED|nullable|string|max:500'
         ]);
 
         $task->update($validated);

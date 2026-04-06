@@ -55,7 +55,7 @@ export const useAPIStore = defineStore('api', () => {
         return axios.delete(`${API_BASE_URL}/users/${id}`)
     }
 
-    /*USERS*/
+    /*TASKS*/
 
     const getAllTasks= () => {
         return axios.get(`${API_BASE_URL}/tasks`)
@@ -78,15 +78,15 @@ export const useAPIStore = defineStore('api', () => {
     }
 
     const changeStatusTask = (id,data) =>{
-        return axios.put(`${API_BASE_URL}/tasks/${id}/changestatus`, {
-            'status':data
-        })
+        return axios.put(`${API_BASE_URL}/tasks/${id}/changestatus`, data)
     }
 
 
     const deleteTask = (id) =>{
         return axios.delete(`${API_BASE_URL}/tasks/${id}`)
     }
+
+    /*Notifications*/
 
     const getNotifications = () =>{
         return axios.get(`${API_BASE_URL}/notifications`)
@@ -95,6 +95,12 @@ export const useAPIStore = defineStore('api', () => {
     const markAsRead = (id) => {
        return axios.post(`${API_BASE_URL}/notifications/${id}`)
     }
+
+    /*Weather*/
+    const getWeather = () =>{
+        return axios.get(`${API_BASE_URL}/weather`)
+    }
+
 
     return {
         postLogin,
@@ -116,6 +122,7 @@ export const useAPIStore = defineStore('api', () => {
         changeStatusTask,
         deleteTask,
         getNotifications,
-        markAsRead
+        markAsRead,
+        getWeather
     }
 })

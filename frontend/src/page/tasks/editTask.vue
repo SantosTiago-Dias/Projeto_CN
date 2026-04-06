@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import {Save, X, ClipboardList, Calendar,AlertCircle, Activity, User, ArrowLeft} from 'lucide-vue-next'
+import {Save, X, ClipboardList, Calendar,AlertCircle, Activity, User, ArrowLeft,MapPin} from 'lucide-vue-next'
 import {Button} from "@/components/ui/button/index.ts";
 import {toast} from "vue-sonner";
 import {useRouter} from "vue-router";
@@ -10,11 +10,12 @@ import {useUserStore} from "@/stores/user.js";
 const props = defineProps(['id'])
 const router = useRouter()
 
-const task = ref({
+  const task = ref({
   title: '',
   description: '',
   priority: '',
   status: '',
+  outside:null,
   due_date: '',
   worker_id: null
 })
@@ -50,7 +51,12 @@ const goBack = () =>{
 }
 
 onMounted(async () => {
-  task.value = await tasksStore.showTask(props.id)
+  const data = await tasksStore.showTask(props.id)
+  //bolean data
+  task.value = {
+    ...data,
+    outside: Boolean(data.outside)
+  }
   users.value = await userStore.getAllWorkers()
 })
 
@@ -123,6 +129,23 @@ onMounted(async () => {
               <option value="COMPLETED">Concluída</option>
               <option value="CANCELLED">Cancelada</option>
             </select>
+          </div>
+
+          <div class="space-y-2 md:col-span-2">
+            <label class="flex items-center gap-2 text-sm font-semibold text-slate-700">
+              <MapPin class="w-4 h-4 text-orange-500" /> Tarefa Externa
+            </label>
+            <div class="flex items-center gap-3 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg">
+              <input
+                  v-model="task.outside"
+                  type="checkbox"
+                  id="outside"
+                  class="w-4 h-4 accent-blue-600 cursor-pointer"
+              >
+              <label for="outside" class="text-sm text-slate-600 cursor-pointer">
+                Esta tarefa é realizada fora das instalações
+              </label>
+            </div>
           </div>
 
           <div class="space-y-2 md:col-span-2">

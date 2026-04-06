@@ -13,11 +13,6 @@ use Illuminate\Support\Str;
 class TaskFactory extends Factory
 {
     /**
-     * The current password being used by the factory.
-     */
-    protected static ?string $password;
-
-    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -25,11 +20,14 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         $faker = \Faker\Factory::create();
+        $status = fake()->randomElement(['PENDING', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED']);
         return [
             'title' => $faker->jobTitle(),
             'description' => 'Lorem ipsum dolor sit amet consectetur adipiscing elit',
-            'status' => $faker->randomElement(['PENDING', 'IN_PROGRESS', 'COMPLETED','CANCELLED']),
+            'status' => $status,
             'priority' => $faker->randomElement(['LOW', 'MEDIUM', 'HIGH']),
+            'outside' => $faker->boolean(50),
+            'reason_cancelled' => ($status == 'CANCELLED') ? $faker->sentence() : null,
             'due_date' => $faker->dateTimeBetween('-1 year', 'now'),
             'admin_id' => User::where('role', 'admin')->inRandomOrder()->first()->id,
             'worker_id'=> User::where('role', 'worker')->inRandomOrder()->first()->id,

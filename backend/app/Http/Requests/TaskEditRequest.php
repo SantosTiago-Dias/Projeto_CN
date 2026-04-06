@@ -14,6 +14,7 @@ class TaskEditRequest extends FormRequest
             'description' => ['sometimes', 'string'],
             'priority'=>['sometimes','in:HIGH,LOW,MEDIUM'],
             'status' => 'sometimes|in:PENDING,IN_PROGRESS,COMPLETED,CANCELLED',
+            'outside' => ['sometimes','boolean'],
             'due_date' => ['sometimes', Rule::date()->afterOrEqual(today())],
             'worker_id' => ['sometimes', 'exists:users,id'],
         ];

@@ -62,7 +62,7 @@ services:
     env_file: ./database/.env
     volumes:
       - db_data:/var/lib/mysql #nome do volume para guardar os dados
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql  #Nome do script para crias as tabelas
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql  #Nome do script para a Base de dados
     healthcheck: #para ver se a BD esta viva
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 10s

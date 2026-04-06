@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('description');
             $table->enum('status', ['PENDING', 'IN_PROGRESS', 'COMPLETED','CANCELLED'])->default('PENDING');
             $table->enum('priority', ['HIGH', 'LOW', 'MEDIUM'])->default('MEDIUM');
+            $table->boolean('outside')->default(false);
             $table->date('due_date');
+            $table->text('reason_cancelled')->nullable();
             $table->foreignId('admin_id')->references('id')->on('users');
             $table->foreignId('worker_id')->references('id')->on('users');
             $table->timestamps();

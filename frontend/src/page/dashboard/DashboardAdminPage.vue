@@ -1,6 +1,7 @@
 <script setup>
 import { Users, AlertOctagon, CheckCheck, BarChart3, Plus } from 'lucide-vue-next'
 import { Button } from "@/components/ui/button"
+import WeatherWidget from '@/components/ui/weather/Weather.vue';
 
 // Dados de exemplo para o Admin
 const adminStats = {
@@ -21,7 +22,9 @@ const teamOverView = [
 
 <template>
   <div class="p-8 space-y-8 max-w-7xl mx-auto">
-
+    <div>
+      <WeatherWidget />
+    </div>
     <div class="flex items-center justify-between">
       <div>
         <h1 class="text-3xl font-black text-slate-950 tracking-tighter">Painel de Controlo</h1>

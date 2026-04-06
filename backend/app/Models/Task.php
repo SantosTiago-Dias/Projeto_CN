@@ -17,8 +17,11 @@ class Task extends Model
         'description',
         'status',
         'priority',
+        'outside',
+        'reason_cancelled',
         'due_date',
-        'worker_id',
         'admin_id',
+        'worker_id',
     ];
+
 }
