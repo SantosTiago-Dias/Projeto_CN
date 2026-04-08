@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import {computed, onMounted, ref} from "vue";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card/index.js";
 import { Plus, Pencil, X, AlertTriangle, MapPin, Eye } from "lucide-vue-next";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table/index.ts";
@@ -10,15 +10,14 @@ import {useRouter} from "vue-router";
 
 
 const tasksStore = useTasksStore()
-const tasks = ref([])
+const tasks = computed(() => tasksStore.tasks)
 const isLoading = ref(false)
 const router = useRouter()
 
 const getAllTasks = async () => {
   isLoading.value = true
   try {
-    let res = await tasksStore.getAllTasks()
-    tasks.value = res.data
+    await tasksStore.getAllTasks()
   } catch (error) {
     toast.error("Erro ao carregar tarefas")
     router.back()

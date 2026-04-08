@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('outside')->default(false);
             $table->date('due_date');
             $table->text('reason_cancelled')->nullable();
+            $table->text('prove_complete')->nullable();
             $table->foreignId('admin_id')->references('id')->on('users');
             $table->foreignId('worker_id')->references('id')->on('users');
             $table->timestamps();

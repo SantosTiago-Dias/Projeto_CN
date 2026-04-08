@@ -8,7 +8,7 @@ export const useTasksStore = defineStore('tasks',()=>{
 
     const getAllTasks = async () =>{
         let response = await apiStore.getAllTasks()
-        return response.data
+        tasks.value = response.data.data
     }
 
     const showTask = async (id) =>{

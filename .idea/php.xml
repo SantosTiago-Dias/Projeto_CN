@@ -284,6 +284,11 @@
       <path value="$PROJECT_DIR$/backend/vendor/evenement/evenement" />
       <path value="$PROJECT_DIR$/backend/vendor/pusher/pusher-php-server" />
       <path value="$PROJECT_DIR$/backend/vendor/ratchet/rfc6455" />
+      <path value="$PROJECT_DIR$/backend/vendor/aws/aws-crt-php" />
+      <path value="$PROJECT_DIR$/backend/vendor/aws/aws-sdk-php" />
+      <path value="$PROJECT_DIR$/backend/vendor/mtdowling/jmespath.php" />
+      <path value="$PROJECT_DIR$/backend/vendor/league/flysystem-aws-s3-v3" />
+      <path value="$PROJECT_DIR$/backend/vendor/symfony/filesystem" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2">

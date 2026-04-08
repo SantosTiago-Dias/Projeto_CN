@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::post('/upload',[TaskController::class, 'upload']);
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/weather', [App\Http\Controllers\WeatherController::class, 'getCurrentWeather']);

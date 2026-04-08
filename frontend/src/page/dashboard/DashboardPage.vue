@@ -325,6 +325,7 @@ const changeStatus = async (id, status) => {
           <label class="text-xs font-bold uppercase tracking-widest text-slate-400">Motivo do Cancelamento</label>
           <textarea
               v-model="cancelReason"
+              required
               rows="3"
               placeholder="Descreva o motivo do cancelamento..."
               class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-400 resize-none"

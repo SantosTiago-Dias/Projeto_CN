@@ -27,7 +27,7 @@ const removeNotification = (id) => {
 }
 
 onMounted(() => {
-  const unwatch = watch(
+  watch(
       () => authStore.currentUser?.id,
       async (userId) => {
         let auth = await authStore.isAuthenticated()
@@ -37,10 +37,16 @@ onMounted(() => {
           laravelEcho.private(`user.${userId}`)
               .listen('NotificationSent', async (e) => {
                 notifications.value.push(e);
-                console.log(authStore.currentUser)
-                if (authStore.isAdmin)
+
+                if (!authStore.isAdmin)
                 {
+                  console.log('worker')
                   await taskStore.showUserTasks();
+                }
+                else
+                {
+                  console.log('admin')
+                  await taskStore.getAllTasks();
                 }
 
               });

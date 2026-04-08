@@ -11,6 +11,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -83,10 +84,18 @@ class TaskController extends Controller
 
     public function changeStatus(Task $task,Request $request): JsonResponse
     {
+
         $validated = $request->validate([
             'status' => 'required|in:IN_PROGRESS,COMPLETED,CANCELLED',
-            'reason_cancelled' => 'required_if:status,CANCELLED|nullable|string|max:500'
+            'reason_cancelled' => 'required_if:status,CANCELLED|nullable|string|max:500',
+            'reason_complete' => 'required_if:status,COMPLETED|nullable|file|mimes:jpeg,jpg,png|max:2048'
         ]);
+
+        if ($request->status === 'COMPLETED') {
+            $path = $request->file('file')->store('', 's3');
+
+            $request['reason_complete'] = Storage::disk('s3')->url($path);
+        }
 
         $task->update($validated);
         NotificationJob::dispatch($task->worker_id,$task->admin_id,$task);
@@ -98,5 +107,4 @@ class TaskController extends Controller
         $task->delete();
         return response()->json(null,204);
     }
-
 }

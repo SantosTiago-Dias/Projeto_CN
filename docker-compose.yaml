@@ -58,7 +58,7 @@ services:
     build:
       context: ./database
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: on-failure:3
     env_file: ./database/.env
     volumes:
       - db_data:/var/lib/mysql #nome do volume para guardar os dados
@@ -81,6 +81,19 @@ services:
     image: adminer
     ports:
       - "8081:8080"
+
+  minio:
+    image: minio/minio:RELEASE.2025-01-20T14-49-07Z
+    container_name: minio
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+    volumes:
+      - ./minio_storage:/data
+    command: server /data --console-address ":9001"
+    restart: always
+    depends_on:
+      - db
 
 volumes:
   db_data:
