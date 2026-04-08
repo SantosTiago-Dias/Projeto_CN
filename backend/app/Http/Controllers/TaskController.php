@@ -82,23 +82,24 @@ class TaskController extends Controller
         return response()->json($task);
     }
 
-    public function changeStatus(Task $task,Request $request): JsonResponse
+    public function changeStatus(Task $task, Request $request): JsonResponse
     {
-
         $validated = $request->validate([
             'status' => 'required|in:IN_PROGRESS,COMPLETED,CANCELLED',
             'reason_cancelled' => 'required_if:status,CANCELLED|nullable|string|max:500',
-            'reason_complete' => 'required_if:status,COMPLETED|nullable|file|mimes:jpeg,jpg,png|max:2048'
+            'proof_image' => 'required_if:status,COMPLETED|nullable|file|mimes:jpeg,jpg,png|max:2048'
         ]);
 
-        if ($request->status === 'COMPLETED') {
-            $path = $request->file('file')->store('', 's3');
+        if ($request->status === 'COMPLETED' && $request->hasFile('proof_image')) {
+            $path = $request->file('proof_image')->store('task-proofs', 's3');
 
-            $request['reason_complete'] = Storage::disk('s3')->url($path);
+            $validated['prove_complete'] = Storage::disk('s3')->url($path);
         }
 
         $task->update($validated);
-        NotificationJob::dispatch($task->worker_id,$task->admin_id,$task);
+
+        NotificationJob::dispatch($task->worker_id, $task->admin_id, $task);
+
         return response()->json($task);
     }
 

@@ -19,6 +19,7 @@ class Task extends Model
         'priority',
         'outside',
         'reason_cancelled',
+        'prove_complete',
         'due_date',
         'admin_id',
         'worker_id',

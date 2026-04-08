@@ -5,11 +5,12 @@ import {
   ListTodo, Calendar as CalendarIcon, MapPin, X
 } from 'lucide-vue-next'
 import { Card, CardContent } from "@/components/ui/card"
-import {useAuthStore} from "@/stores/auth.js";
-import {useTasksStore} from "@/stores/tasks.js";
-import {Button} from "@/components/ui/button/index.ts";
-import {toast} from "vue-sonner";
-import WeatherWidget from "@/components/ui/weather/Weather.vue";
+import { useAuthStore } from "@/stores/auth.js"
+import { useTasksStore } from "@/stores/tasks.js"
+import { Button } from "@/components/ui/button/index.ts"
+import { toast } from "vue-sonner"
+import WeatherWidget from "@/components/ui/weather/Weather.vue"
+import CompleteTaskModal from "@/components/ui/completeTaskModel/CompleteTaskModal.vue" // Import do novo componente
 
 const authStore = useAuthStore()
 const tasksStore = useTasksStore()
@@ -23,6 +24,10 @@ const showCancelModal = ref(false)
 const taskToCancel = ref(null)
 const cancelReason = ref('')
 
+// Estados para o Modal de Conclusão com Imagem
+const showCompleteModal = ref(false)
+const taskToComplete = ref(null)
+
 const weatherAlertReason = ref('')
 
 const onWeatherAlert = (reason) => {
@@ -34,6 +39,12 @@ const openDetails = (task) => {
   showDetailsModal.value = true
 }
 
+// Model para preview da imagem
+const openCompleteModal = (task) => {
+  taskToComplete.value = task
+  showCompleteModal.value = true
+}
+
 const confirmCancel = (task) => {
   taskToCancel.value = task
   cancelReason.value = task.outside && weatherAlertReason.value
@@ -42,6 +53,7 @@ const confirmCancel = (task) => {
   showCancelModal.value = true
 }
 
+// Funçao para cancelar a tarefa
 const handleCancel = async () => {
   try {
     await tasksStore.changeStatusTask(taskToCancel.value.id, {
@@ -53,6 +65,28 @@ const handleCancel = async () => {
     toast.success('Tarefa cancelada com sucesso')
   } catch (error) {
     toast.error('Ocorreu um erro a cancelar a tarefa')
+  }
+}
+
+// Funçao para completar a tarefa
+const handleCompleteTask = async ({ taskId,file }) => {
+  try {
+    const formData = new FormData()
+    formData.append('status', 'COMPLETED')
+    formData.append('proof_image', file)
+
+    await tasksStore.changeStatusTask(taskId, formData,{
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+
+    await getmyTasks()
+    showCompleteModal.value = false
+    toast.success('Tarefa concluída com prova enviada!')
+  } catch (error) {
+
+    toast.error('Erro ao finalizar tarefa com imagem')
   }
 }
 
@@ -84,8 +118,6 @@ const changeStatus = async (id, status) => {
     await getmyTasks()
 
     if (status === 'IN_PROGRESS') toast.success('Tarefa começada com sucesso')
-    else if (status === 'COMPLETED') toast.success('Tarefa concluida com sucesso')
-
   } catch (error) {
     toast.error('Ocorreu um erro a atualizar o estado da tarefa')
   }
@@ -117,7 +149,6 @@ const changeStatus = async (id, status) => {
           </div>
         </CardContent>
       </Card>
-
       <Card class="border-none shadow-sm ring-1 ring-slate-200">
         <CardContent class="p-6 flex items-center gap-4">
           <div class="p-3 bg-emerald-100 text-emerald-600 rounded-xl"><CheckCircle2 /></div>
@@ -127,7 +158,6 @@ const changeStatus = async (id, status) => {
           </div>
         </CardContent>
       </Card>
-
       <Card class="border-none shadow-sm ring-1 ring-slate-200">
         <CardContent class="p-6 flex items-center gap-4">
           <div class="p-3 bg-amber-100 text-amber-600 rounded-xl"><Clock /></div>
@@ -137,7 +167,6 @@ const changeStatus = async (id, status) => {
           </div>
         </CardContent>
       </Card>
-
       <Card class="border-none shadow-sm ring-1 ring-slate-200">
         <CardContent class="p-6 flex items-center gap-4">
           <div class="p-3 bg-rose-100 text-rose-600 rounded-xl"><AlertTriangle /></div>
@@ -167,9 +196,6 @@ const changeStatus = async (id, status) => {
             ]"></div>
             <div>
               <h4 class="font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">{{ task.title }}</h4>
-              <p class="text-[11px] text-slate-400 uppercase font-black tracking-widest" v-if="task.priority === 'HIGH'">Alta prioridade</p>
-              <p class="text-[11px] text-slate-400 uppercase font-black tracking-widest" v-if="task.priority === 'MEDIUM'">Prioridade média</p>
-              <p class="text-[11px] text-slate-400 uppercase font-black tracking-widest" v-if="task.priority === 'LOW'">Prioridade baixa</p>
               <span v-if="task.outside" class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-orange-100 text-orange-600">
                 <MapPin :size="10" /> Externa
               </span>
@@ -187,7 +213,7 @@ const changeStatus = async (id, status) => {
 
             <div v-else-if="task.status === 'IN_PROGRESS'" class="flex items-center gap-2">
               <Button
-                  @click="changeStatus(task.id, 'COMPLETED')"
+                  @click="openCompleteModal(task)"
                   class="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 h-auto text-sm font-bold flex items-center gap-2 transition-all active:scale-95 rounded-xl shadow-md shadow-emerald-500/10"
               >
                 <CheckCircle2 :size="18" /> Concluir
@@ -288,6 +314,20 @@ const changeStatus = async (id, status) => {
             <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Motivo de Cancelamento</p>
             <p class="text-sm text-rose-600 font-medium">{{ selectedTask.reason_cancelled }}</p>
           </div>
+
+          <div v-if="selectedTask.status === 'COMPLETED' && selectedTask.prove_complete" class="pt-4 border-t border-slate-100">
+            <p class="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-2 flex items-center gap-2">
+              <CheckCircle2 :size="14" /> Prova de Conclusão
+            </p>
+            <div class="relative group cursor-pointer overflow-hidden rounded-xl border border-slate-200">
+              <img
+                  :src="selectedTask.prove_complete"
+                  alt="Prova de trabalho"
+                  class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -341,4 +381,11 @@ const changeStatus = async (id, status) => {
       </div>
     </div>
   </div>
+
+  <CompleteTaskModal
+      :is-open="showCompleteModal"
+      :task="taskToComplete"
+      @close="showCompleteModal = false"
+      @confirm="handleCompleteTask"
+  />
 </template>

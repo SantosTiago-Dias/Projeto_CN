@@ -1,7 +1,7 @@
 <script setup>
 import {computed, onMounted, ref} from "vue";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card/index.js";
-import { Plus, Pencil, X, AlertTriangle, MapPin, Eye } from "lucide-vue-next";
+import { Plus, Pencil, X, AlertTriangle, MapPin, Eye, CheckCircle2 } from "lucide-vue-next";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table/index.ts";
 import { Button } from "@/components/ui/button/index.ts";
 import {toast} from "vue-sonner";
@@ -192,7 +192,7 @@ onMounted(() => {
           </button>
         </div>
 
-        <div class="p-6 space-y-4">
+        <div class="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
           <div>
             <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Título</p>
             <p class="font-semibold text-slate-900">{{ selectedTask.title }}</p>
@@ -221,16 +221,7 @@ onMounted(() => {
 
             <div>
               <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Prioridade</p>
-              <span :class="[
-                'inline-flex items-center gap-1.5 font-bold text-xs uppercase tracking-wide',
-                selectedTask.priority === 'HIGH' ? 'text-red-600' :
-                selectedTask.priority === 'MEDIUM' ? 'text-orange-500' : 'text-slate-500'
-              ]">
-                <span :class="[
-                  'w-2 h-2 rounded-full',
-                  selectedTask.priority === 'HIGH' ? 'bg-red-600 animate-pulse' :
-                  selectedTask.priority === 'MEDIUM' ? 'bg-orange-500' : 'bg-slate-400'
-                ]"></span>
+              <span class="inline-flex items-center gap-1.5 font-bold text-xs uppercase tracking-wide">
                 {{ selectedTask.priority === 'HIGH' ? 'Alta' : selectedTask.priority === 'MEDIUM' ? 'Média' : 'Baixa' }}
               </span>
             </div>
@@ -242,18 +233,29 @@ onMounted(() => {
 
             <div>
               <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Tarefa Externa</p>
-              <span v-if="selectedTask.outside" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-600">
-                <MapPin :size="12" /> Sim
-              </span>
-              <span v-else class="px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500">
-                Não
-              </span>
+              <span v-if="selectedTask.outside" class="text-xs font-bold text-orange-600">Sim</span>
+              <span v-else class="text-xs font-bold text-slate-500">Não</span>
             </div>
+          </div>
 
-            <div v-if="selectedTask.reason_cancelled" class="col-span-2">
-              <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Motivo de Cancelamento</p>
-              <p class="text-sm text-rose-600 font-medium">{{ selectedTask.reason_cancelled }}</p>
+          <div v-if="selectedTask.status === 'COMPLETED' && selectedTask.prove_complete" class="pt-4 border-t border-slate-100">
+            <p class="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-2 flex items-center gap-2">
+              <CheckCircle2 :size="14" /> Prova de Conclusão
+            </p>
+            <div class="relative group cursor-pointer overflow-hidden rounded-xl border border-slate-200">
+              <img
+                  :src="selectedTask.prove_complete"
+                  alt="Prova de trabalho"
+                  class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+              />
             </div>
+          </div>
+
+          <div v-if="selectedTask.reason_cancelled" class="pt-4 border-t border-slate-100">
+            <p class="text-xs font-bold uppercase tracking-widest text-rose-400 mb-1">Motivo de Cancelamento</p>
+            <p class="text-sm text-rose-600 font-medium bg-rose-50 p-3 rounded-lg border border-rose-100">
+              {{ selectedTask.reason_cancelled }}
+            </p>
           </div>
         </div>
 
