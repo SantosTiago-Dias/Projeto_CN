@@ -9,9 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::post('/upload',[TaskController::class, 'upload']);
+
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/weather', [App\Http\Controllers\WeatherController::class, 'getCurrentWeather']);
@@ -27,7 +29,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     Route::get('/notifications', [NotificationController::class, 'index']);
     Route::post('/notifications/{notification}', [NotificationController::class, 'markAsRead']);
-    Broadcast::routes(['middleware' => ['auth:sanctum']]);
+
 
 });
 

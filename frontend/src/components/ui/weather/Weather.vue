@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useWeatherStore } from "@/stores/weather.js";
+import {toast} from "vue-sonner";
 
 const weather = ref(null);
 const loading = ref(true);
@@ -32,7 +33,7 @@ const fetchWeather = async () => {
     }
 
   } catch (error) {
-    console.error("Error fetching weather:", error);
+    toast.error("Ocorreu um erro ao carregar o tempo")
     weather.value = null;
   } finally {
     loading.value = false;

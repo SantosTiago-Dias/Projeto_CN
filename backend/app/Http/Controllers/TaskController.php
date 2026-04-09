@@ -42,19 +42,6 @@ class TaskController extends Controller
 
     }
 
-    public function getTaskToday(): TaskCollection
-    {
-        $user = auth()->user();
-        if ($user->isAdmin())
-        {
-            abort(403);
-        }
-
-        $tasks = Task::where('worker_id', $user->id)->whereDate('due_date', today())->orderBy('due_date', 'desc')->get();
-
-        return new TaskCollection($tasks);
-
-    }
 
     public function store(TaskCreateRequest $request): JsonResponse
     {
@@ -70,7 +57,7 @@ class TaskController extends Controller
             'worker_id'     => $request->worker_id
         ]);
 
-        NotificationJob::dispatch($request->user()->id,$request->worker_id,$task);
+        NotificationJob::dispatch($request->user()->id,$request->worker_id,$task,'updated');
 
 
         return new JsonResponse($task);
@@ -84,6 +71,9 @@ class TaskController extends Controller
 
     public function changeStatus(Task $task, Request $request): JsonResponse
     {
+        if ($task->worker_id !== auth()->id() || auth()->user()->isAdmin()) {
+            abort(403);
+        }
         $validated = $request->validate([
             'status' => 'required|in:IN_PROGRESS,COMPLETED,CANCELLED',
             'reason_cancelled' => 'required_if:status,CANCELLED|nullable|string|max:500',
@@ -92,9 +82,12 @@ class TaskController extends Controller
 
         if ($request->status === 'COMPLETED' && $request->hasFile('proof_image')) {
             $uploadFile = $request->file('proof_image');
-            $path = $uploadFile->storeAs('proof_images', $uploadFile->getClientOriginalName());
+            $path = $uploadFile->store('proof_images');
 
-
+            if (!$path)
+            {
+                abort(500,'Ocorreu um erro ao carregar o arquivo');
+            }
             $validated['prove_complete'] =  $uploadFile->getClientOriginalName();
         }
 

@@ -15,10 +15,20 @@ const fileInput = ref(null)
 const previewUrl = ref(null)
 const selectedFile = ref(null)
 const isUploading = ref(false)
+const allowedTypes= ['image/png', 'image/jpeg']
 
 const handleFileChange = (event) => {
   const file = event.target.files[0]
+  //validate type off file
+  if (!allowedTypes.includes(file.type))
+  {
+
+    toast.info('Apenas PNG, JPG e JPEG são permitidos.')
+    event.target.value=''
+    return
+  }
   if (file) {
+
     processFile(file)
   }
 }
@@ -82,7 +92,7 @@ const handleConfirm = async () => {
               type="file"
               ref="fileInput"
               class="hidden"
-              accept="image/*"
+              accept=".png,.jpg,.jpeg"
               @change="handleFileChange"
           />
 

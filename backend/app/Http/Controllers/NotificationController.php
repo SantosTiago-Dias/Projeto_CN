@@ -12,13 +12,17 @@ class NotificationController extends Controller
     public function index():NotificationCollection
     {
 
-        $notifications = Notification::where('to', auth()->id())->notificationsNotRead()->get();
+        $notifications = Notification::where('to', auth()->id())->notificationsNotRead()->orderBy('created_at', 'desc')->get();
 
         return new NotificationCollection($notifications);
     }
 
     public function markAsRead(Notification $notification):JsonResponse
     {
+        if ($notification->to !== auth()->id()) {
+            abort(403);
+        }
+
         $notification->markAsRead();
         return response()->json(null,204);
     }

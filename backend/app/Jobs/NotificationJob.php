@@ -19,7 +19,7 @@ class NotificationJob implements ShouldQueue
     public function __construct(
         public int $createdby,
         public int $recivedby,
-        public Task $task,
+        public Task $task
     )
     {
 

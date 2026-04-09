@@ -26,7 +26,7 @@ const isActive = (path) => route.path === path
 <template>
   <aside class="w-64 bg-white border-r h-screen flex flex-col shrink-0 sticky top-0">
     <div class="p-6 border-b flex items-center h-16">
-      <span class="font-bold text-lg tracking-tight">NOME</span>
+      <span class="font-bold text-lg tracking-tight">Projeto Mestrado-CN</span>
     </div>
 
     <NavigationMenu orientation="vertical" class="flex-1 items-start justify-start max-w-none p-4">

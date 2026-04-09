@@ -50,7 +50,7 @@ const goBack = () => {
 onMounted(async () => {
   try {
     const response = await userStore.getAllWorkers()
-    users.value = response
+    users.value = response.data
   } catch (error) {
     toast.error("Erro ao carregar lista de trabalhadores")
   }

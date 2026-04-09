@@ -15,4 +15,12 @@ class UserEditRequest extends FormRequest
             'role' => 'sometimes|in:admin,worker',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.string' => 'O nome deve ser um texto.',
+            'role.in'     => 'A função deve ser: admin ou worker.',
+        ];
+    }
 }

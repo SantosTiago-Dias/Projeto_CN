@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { inject } from 'vue'
+import {destroyEcho} from "@/websocket/echo.js";
 
 export const useAPIStore = defineStore('api', () => {
     const API_BASE_URL = inject('apiBaseURL')
@@ -22,6 +23,7 @@ export const useAPIStore = defineStore('api', () => {
     }
     const postLogout = async () => {
         localStorage.removeItem('token')
+        destroyEcho()
         await axios.post(`${API_BASE_URL}/logout`)
     }
 

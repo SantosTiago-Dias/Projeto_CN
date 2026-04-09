@@ -32,7 +32,7 @@ const handleUpdate = async () => {
   try
   {
     let res = await tasksStore.editTask(props.id,task.value)
-    console.log(res)
+
     if (res.status === 200) {
       toast.success('Tarefa editada com sucesso')
       router.push('/tasks')
@@ -57,7 +57,8 @@ onMounted(async () => {
     ...data,
     outside: Boolean(data.outside)
   }
-  users.value = await userStore.getAllWorkers()
+  const response = await userStore.getAllWorkers()
+  users.value = response.data
 })
 
 

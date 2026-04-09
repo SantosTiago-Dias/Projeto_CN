@@ -19,4 +19,18 @@ class TaskEditRequest extends FormRequest
             'worker_id' => ['sometimes', 'exists:users,id'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'title.string'             => 'O título deve ser um texto.',
+            'description.string'       => 'A descrição deve ser um texto.',
+            'priority.in'              => 'A prioridade deve ser: HIGH, LOW ou MEDIUM.',
+            'status.in'                => 'O status deve ser: PENDING, IN_PROGRESS, COMPLETED ou CANCELLED.',
+            'outside.boolean'          => 'O campo outside deve ser verdadeiro ou falso.',
+            'due_date.date'            => 'A data de vencimento deve ser uma data válida.',
+            'due_date.after_or_equal'  => 'A data de vencimento deve ser hoje ou uma data futura.',
+            'worker_id.exists'         => 'O trabalhador selecionado não existe.',
+        ];
+    }
 }

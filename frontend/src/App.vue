@@ -7,7 +7,7 @@ import {Toaster} from "vue-sonner";
 import {Button} from "@/components/ui/button/index.ts";
 import NotificationBell from "@/components/ui/notification/Notification.vue";
 import {useNotificaitonStore} from "@/stores/notification.js";
-import {laravelEcho} from "@/websocket/echo.js";
+import {getEcho} from "@/websocket/echo.js";
 import {useTasksStore} from "@/stores/tasks.js";
 
 const route = useRoute()
@@ -34,7 +34,8 @@ onMounted(() => {
         if (userId && auth) {
           notifications.value = await notiStore.notifications();
 
-          laravelEcho.private(`user.${userId}`)
+          const echo = getEcho();
+          echo.private(`user.${userId}`)
               .listen('NotificationSent', async (e) => {
                 notifications.value.push(e);
 
