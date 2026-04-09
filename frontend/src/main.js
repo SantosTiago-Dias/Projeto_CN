@@ -7,11 +7,13 @@ import './websocket/echo.js'
 
 
 const SERVER_BASE_URL = import.meta.env.VITE_BASE_URL;
+const s3_BASE_URL = import.meta.env.VITE_S3_PUBLIC_URL;
 const API_BASE_URL = SERVER_BASE_URL + '/api';
 
 const app = createApp(App)
 
 app.provide('apiBaseURL', API_BASE_URL)
+app.provide('s3BaseURL', s3_BASE_URL)
 
 app.use(createPinia())
 app.use(router)

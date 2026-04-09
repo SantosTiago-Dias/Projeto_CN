@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, ref} from "vue";
+import {computed, inject, onMounted, ref} from "vue";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card/index.js";
 import { Plus, Pencil, X, AlertTriangle, MapPin, Eye, CheckCircle2 } from "lucide-vue-next";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table/index.ts";
@@ -13,6 +13,7 @@ const tasksStore = useTasksStore()
 const tasks = computed(() => tasksStore.tasks)
 const isLoading = ref(false)
 const router = useRouter()
+const s3_BASE_URL = inject('s3BaseURL')
 
 const getAllTasks = async () => {
   isLoading.value = true
@@ -244,7 +245,7 @@ onMounted(() => {
             </p>
             <div class="relative group cursor-pointer overflow-hidden rounded-xl border border-slate-200">
               <img
-                  :src="selectedTask.prove_complete"
+                  :src="`${s3_BASE_URL}/${selectedTask.prove_complete}`"
                   alt="Prova de trabalho"
                   class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
               />

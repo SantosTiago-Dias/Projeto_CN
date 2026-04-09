@@ -91,9 +91,11 @@ class TaskController extends Controller
         ]);
 
         if ($request->status === 'COMPLETED' && $request->hasFile('proof_image')) {
-            $path = $request->file('proof_image')->store('task-proofs', 's3');
+            $uploadFile = $request->file('proof_image');
+            $path = $uploadFile->storeAs('proof_images', $uploadFile->getClientOriginalName());
 
-            $validated['prove_complete'] = Storage::disk('s3')->url($path);
+
+            $validated['prove_complete'] =  $uploadFile->getClientOriginalName();
         }
 
         $task->update($validated);

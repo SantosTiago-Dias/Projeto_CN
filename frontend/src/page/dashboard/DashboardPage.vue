@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import {ref, onMounted, computed, inject} from 'vue'
 import {
   CheckCircle2, Clock, AlertTriangle,
   ListTodo, Calendar as CalendarIcon, MapPin, X
@@ -14,6 +14,7 @@ import CompleteTaskModal from "@/components/ui/completeTaskModel/CompleteTaskMod
 
 const authStore = useAuthStore()
 const tasksStore = useTasksStore()
+const s3_BASE_URL = inject('s3BaseURL')
 
 const tasks = computed(() => tasksStore.tasks)
 
@@ -321,7 +322,7 @@ const changeStatus = async (id, status) => {
             </p>
             <div class="relative group cursor-pointer overflow-hidden rounded-xl border border-slate-200">
               <img
-                  :src="selectedTask.prove_complete"
+                  :src="`${s3_BASE_URL}/${selectedTask.prove_complete}`"
                   alt="Prova de trabalho"
                   class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
               />

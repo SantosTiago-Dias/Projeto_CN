@@ -1,0 +1,5 @@
+minio_storage/*
+data/*
+.env
+backend/.env
+database/.env
