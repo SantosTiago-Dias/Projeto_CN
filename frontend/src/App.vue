@@ -41,12 +41,10 @@ onMounted(() => {
 
                 if (!authStore.isAdmin)
                 {
-                  console.log('worker')
                   await taskStore.showUserTasks();
                 }
                 else
                 {
-                  console.log('admin')
                   await taskStore.getAllTasks();
                 }
 

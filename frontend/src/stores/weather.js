@@ -6,7 +6,6 @@ export const useWeatherStore = defineStore('weather', () => {
 
     const getWeather = async () => {
         const response = await apiStore.getWeather()
-        console.log(response)
         return response.data
 
 

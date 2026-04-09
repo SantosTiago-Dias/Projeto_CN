@@ -38,7 +38,6 @@ const handleCreate = async () => {
       toast.error('Ocorreu um erro ao tentar criar a Tarefa')
     }
   } catch (error) {
-    console.log(error)
     toast.error(error .message)
   }
 }

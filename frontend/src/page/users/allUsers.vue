@@ -16,7 +16,7 @@ const getAllUser = async () => {
     let res = await userStore.getAllUsers()
     Users.value = res.data
   } catch (error) {
-    console.error("Erro ao carregar utilizadores")
+    toast.error("Erro ao carregar todos os utilizadrores")
   }
 }
 

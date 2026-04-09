@@ -75,7 +75,7 @@ export const useAPIStore = defineStore('api', () => {
     }
 
     const editTask = (id,data) =>{
-        console.log(data)
+        (data)
         return axios.put(`${API_BASE_URL}/tasks/${id}`, data).catch(error => { throw error.response.data })
     }
 

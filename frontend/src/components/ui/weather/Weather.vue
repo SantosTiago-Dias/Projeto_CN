@@ -1,6 +1,6 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
-import { useWeatherStore } from "@/stores/weather.js";
+import {computed, onMounted, ref} from 'vue';
+import {useWeatherStore} from "@/stores/weather.js";
 import {toast} from "vue-sonner";
 
 const weather = ref(null);
@@ -18,15 +18,7 @@ const isRaining = computed(() => {
 const fetchWeather = async () => {
   try {
     loading.value = true;
-    const response = await weatherStore.getWeather();
-
-    if (response && response.main) {
-      weather.value = response;
-    } else if (response && response.data) {
-      weather.value = response.data;
-    } else {
-      weather.value = null;
-    }
+    weather.value = await weatherStore.getWeather()
 
     if (isRaining.value) {
       emit('weather-alert', 'Condições Adversas - Chuva detetada no local de trabalho')

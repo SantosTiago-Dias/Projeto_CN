@@ -56,7 +56,7 @@ const handleConfirm = async () => {
     emit('confirm', { taskId: props.task.id ,file: selectedFile.value })
     removeImage()
   } catch (error) {
-    console.log(error)
+    (error)
     toast.error('Erro ao enviar a prova de trabalho.')
   } finally {
     isUploading.value = false

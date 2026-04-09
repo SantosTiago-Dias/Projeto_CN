@@ -11,7 +11,6 @@ const router= useRouter()
 const route= useRoute()
 
 const logout = async () => {
-  console.log('aqui')
   await authStore.logout().then(()=>{
     router.push('/')
     toast.success('Logout efetuado com sucesso')

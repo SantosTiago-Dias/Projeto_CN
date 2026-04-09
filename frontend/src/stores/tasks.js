@@ -27,7 +27,6 @@ export const useTasksStore = defineStore('tasks',()=>{
     }
 
     const editTask = async (id,data) =>{
-        console.log(data)
         let response = await apiStore.editTask(id,data)
         return response
     }

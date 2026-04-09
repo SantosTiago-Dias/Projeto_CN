@@ -11,7 +11,6 @@ export const useNotificaitonStore = defineStore('notification', () => {
 
     const markAsRead = async ($id) =>{
         const res =await apiStore.markAsRead($id)
-        console.log(res)
         return res.status
     }
 
