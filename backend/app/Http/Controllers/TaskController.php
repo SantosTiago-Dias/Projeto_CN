@@ -9,9 +9,12 @@ use App\Http\Resources\TaskCollection;
 use App\Jobs\NotificationJob;
 use App\Models\Task;
 use App\Models\User;
+use Aws\S3\S3Client;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TaskController extends Controller
 {
@@ -71,25 +74,14 @@ class TaskController extends Controller
 
     public function changeStatus(Task $task, Request $request): JsonResponse
     {
-        if ($task->worker_id !== auth()->id() || auth()->user()->isAdmin()) {
+        if ($task->worker_id !== auth()->id() && auth()->user()->isAdmin()) {
             abort(403);
         }
         $validated = $request->validate([
             'status' => 'required|in:IN_PROGRESS,COMPLETED,CANCELLED',
             'reason_cancelled' => 'required_if:status,CANCELLED|nullable|string|max:500',
-            'proof_image' => 'required_if:status,COMPLETED|nullable|file|mimes:jpeg,jpg,png|max:2048'
+            'prove_complete' => 'required_if:status,COMPLETED|nullable|string'
         ]);
-
-        if ($request->status === 'COMPLETED' && $request->hasFile('proof_image')) {
-            $uploadFile = $request->file('proof_image');
-            $path = $uploadFile->store('proof_images');
-
-            if (!$path)
-            {
-                abort(500,'Ocorreu um erro ao carregar o arquivo');
-            }
-            $validated['prove_complete'] =  $uploadFile->getClientOriginalName();
-        }
 
         $task->update($validated);
 
@@ -102,5 +94,36 @@ class TaskController extends Controller
     {
         $task->delete();
         return response()->json(null,204);
+    }
+
+    public function uploadImage(): JsonResponse
+    {
+        $filename = time() . '-' . Str::random(10) . '.jpg';
+        $key = 'proof_images/' . $filename;
+        $BUCKET = config('filesystems.disks.s3.bucket');
+
+        $client = new S3Client([
+            'version'                 => 'latest',
+            'region'                  => config('filesystems.disks.s3.region'),
+            'credentials'             => [
+                'key'    => config('filesystems.disks.s3.key'),
+                'secret' => config('filesystems.disks.s3.secret'),
+            ],
+            'endpoint'                => config('filesystems.disks.s3.url'), // ← public URL
+            'use_path_style_endpoint' => config('filesystems.disks.s3.use_path_style_endpoint'),
+        ]);
+
+        $command = $client->getCommand('PutObject', [
+            'Bucket'      => $BUCKET,
+            'Key'         => $key,
+            'ContentType' => 'image/jpeg',
+        ]);
+
+        $presignedUrl = $client->createPresignedRequest($command, '+10 minutes')->getUri();
+
+        return response()->json([
+            'upload_url' => (string) $presignedUrl,
+            'filename'   => $filename,
+        ]);
     }
 }

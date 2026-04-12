@@ -11,10 +11,8 @@ const emit = defineEmits(['remove-notification'])
 
 const markAsRead = async (id) =>{
     let status = await notificationStore.markAsRead(id)
-    if (status === 204)
-    {
-      emit('remove-notification', id)
-    }
+    emit('remove-notification', id)
+
 }
 </script>
 
@@ -70,7 +68,6 @@ const markAsRead = async (id) =>{
 </template>
 
 <style scoped>
-/* Estilos Simples (podes adaptar para Tailwind CSS ou o teu framework) */
 .notification-wrapper {
   position: relative;
   display: inline-block;

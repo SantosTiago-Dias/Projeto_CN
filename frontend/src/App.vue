@@ -35,8 +35,7 @@ onMounted(() => {
           notifications.value = await notiStore.notifications();
 
           const echo = getEcho();
-          echo.private(`user.${userId}`)
-              .listen('NotificationSent', async (e) => {
+          echo.private(`user.${userId}`).listen('NotificationSent', async (e) => {
                 notifications.value.push(e);
 
                 if (!authStore.isAdmin)

@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/mytasks', [TaskController::class, 'getTaskUser']);
     Route::put('/tasks/{task}/changestatus', [TaskController::class, 'changeStatus']);
     Route::apiResource('/tasks', TaskController::class)->middleware(IsAdmin::class);
+    Route::get('/uploadImage',[TaskController::class,'uploadImage']);
 
     Route::get('/notifications', [NotificationController::class, 'index']);
     Route::post('/notifications/{notification}', [NotificationController::class, 'markAsRead']);

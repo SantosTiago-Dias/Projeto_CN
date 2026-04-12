@@ -75,12 +75,15 @@ export const useAPIStore = defineStore('api', () => {
     }
 
     const editTask = (id,data) =>{
-        (data)
         return axios.put(`${API_BASE_URL}/tasks/${id}`, data).catch(error => { throw error.response.data })
     }
 
     const changeStatusTask = (id,data) =>{
         return axios.put(`${API_BASE_URL}/tasks/${id}/changestatus`, data)
+    }
+
+    const uploadImage = ()=>{
+        return axios.get(`${API_BASE_URL}/uploadImage`)
     }
 
 
@@ -125,6 +128,7 @@ export const useAPIStore = defineStore('api', () => {
         deleteTask,
         getNotifications,
         markAsRead,
-        getWeather
+        getWeather,
+        uploadImage
     }
 })

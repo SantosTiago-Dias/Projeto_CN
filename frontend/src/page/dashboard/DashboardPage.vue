@@ -10,10 +10,12 @@ import { useTasksStore } from "@/stores/tasks.js"
 import { Button } from "@/components/ui/button/index.ts"
 import { toast } from "vue-sonner"
 import WeatherWidget from "@/components/ui/weather/Weather.vue"
-import CompleteTaskModal from "@/components/ui/completeTaskModel/CompleteTaskModal.vue" // Import do novo componente
+import CompleteTaskModal from "@/components/ui/completeTaskModel/CompleteTaskModal.vue"
+import {useAPIStore} from "@/stores/api.js"; // Import do novo componente
 
 const authStore = useAuthStore()
 const tasksStore = useTasksStore()
+const api = useAPIStore()
 const s3_BASE_URL = inject('s3BaseURL')
 
 const tasks = computed(() => tasksStore.tasks)
@@ -72,19 +74,30 @@ const handleCancel = async () => {
 // Funçao para completar a tarefa
 const handleCompleteTask = async ({ taskId,file }) => {
   try {
-    const formData = new FormData()
-    formData.append('status', 'COMPLETED')
-    formData.append('proof_image', file)
 
-    await tasksStore.changeStatusTask(taskId, formData,{
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+
+    let urlRes = await api.uploadImage()
+    let url = urlRes.data.upload_url
+    let filename = urlRes.data.filename
+
+    let res = await fetch(url,{
+      method:'PUT',
+      body: file,
+      headers: { 'Content-Type': 'image/jpeg' }
     })
 
-    await getmyTasks()
-    showCompleteModal.value = false
-    toast.success('Tarefa concluída com prova enviada!')
+    if (res.status === 200)
+    {
+      const formData = new FormData()
+      formData.append('status', 'COMPLETED')
+      formData.append('prove_complete', filename)
+
+      await tasksStore.changeStatusTask(taskId, formData)
+
+      await getmyTasks()
+      showCompleteModal.value = false
+      toast.success('Tarefa concluída com prova enviada!')
+    }
   } catch (error) {
 
     toast.error('Erro ao finalizar tarefa com imagem')
@@ -253,7 +266,7 @@ const changeStatus = async (id, status) => {
         </button>
       </div>
 
-      <div class="p-6 space-y-4">
+      <div class="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
         <div>
           <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Título</p>
           <p class="font-semibold text-slate-900">{{ selectedTask.title }}</p>
@@ -268,32 +281,23 @@ const changeStatus = async (id, status) => {
           <div>
             <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Estado</p>
             <span :class="[
-              'px-2.5 py-1 rounded-full text-xs font-bold',
-              selectedTask.status === 'PENDING' ? 'bg-amber-100 text-amber-700' :
-              selectedTask.status === 'IN_PROGRESS' ? 'bg-blue-100 text-blue-700' :
-              selectedTask.status === 'COMPLETED' ? 'bg-emerald-100 text-emerald-700' :
-              'bg-rose-100 text-rose-700'
-            ]">
-              {{ selectedTask.status === 'PENDING' ? 'Pendente' :
+                'px-2.5 py-1 rounded-full text-xs font-bold',
+                selectedTask.status === 'PENDING' ? 'bg-amber-100 text-amber-700' :
+                selectedTask.status === 'IN_PROGRESS' ? 'bg-blue-100 text-blue-700' :
+                selectedTask.status === 'COMPLETED' ? 'bg-emerald-100 text-emerald-700' :
+                'bg-rose-100 text-rose-700'
+              ]">
+                {{ selectedTask.status === 'PENDING' ? 'Pendente' :
                 selectedTask.status === 'IN_PROGRESS' ? 'Em Progresso' :
                     selectedTask.status === 'COMPLETED' ? 'Concluída' : 'Cancelada' }}
-            </span>
+              </span>
           </div>
 
           <div>
             <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Prioridade</p>
-            <span :class="[
-              'inline-flex items-center gap-1.5 font-bold text-xs uppercase tracking-wide',
-              selectedTask.priority === 'HIGH' ? 'text-red-600' :
-              selectedTask.priority === 'MEDIUM' ? 'text-orange-500' : 'text-slate-500'
-            ]">
-              <span :class="[
-                'w-2 h-2 rounded-full',
-                selectedTask.priority === 'HIGH' ? 'bg-red-600 animate-pulse' :
-                selectedTask.priority === 'MEDIUM' ? 'bg-orange-500' : 'bg-slate-400'
-              ]"></span>
-              {{ selectedTask.priority === 'HIGH' ? 'Alta' : selectedTask.priority === 'MEDIUM' ? 'Média' : 'Baixa' }}
-            </span>
+            <span class="inline-flex items-center gap-1.5 font-bold text-xs uppercase tracking-wide">
+                {{ selectedTask.priority === 'HIGH' ? 'Alta' : selectedTask.priority === 'MEDIUM' ? 'Média' : 'Baixa' }}
+              </span>
           </div>
 
           <div>
@@ -303,32 +307,29 @@ const changeStatus = async (id, status) => {
 
           <div>
             <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Tarefa Externa</p>
-            <span v-if="selectedTask.outside" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-600">
-              <MapPin :size="12" /> Sim
-            </span>
-            <span v-else class="px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500">
-              Não
-            </span>
+            <span v-if="selectedTask.outside" class="text-xs font-bold text-orange-600">Sim</span>
+            <span v-else class="text-xs font-bold text-slate-500">Não</span>
           </div>
+        </div>
 
-          <div v-if="selectedTask.reason_cancelled" class="col-span-2">
-            <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Motivo de Cancelamento</p>
-            <p class="text-sm text-rose-600 font-medium">{{ selectedTask.reason_cancelled }}</p>
+        <div v-if="selectedTask.status === 'COMPLETED' && selectedTask.prove_complete" class="pt-4 border-t border-slate-100">
+          <p class="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-2 flex items-center gap-2">
+            <CheckCircle2 :size="14" /> Prova de Conclusão
+          </p>
+          <div class="relative group cursor-pointer overflow-hidden rounded-xl border border-slate-200">
+            <img
+                :src="`${s3_BASE_URL}/${selectedTask.prove_complete}`"
+                alt="Prova de trabalho"
+                class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+            />
           </div>
+        </div>
 
-          <div v-if="selectedTask.status === 'COMPLETED' && selectedTask.prove_complete" class="pt-4 border-t border-slate-100">
-            <p class="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-2 flex items-center gap-2">
-              <CheckCircle2 :size="14" /> Prova de Conclusão
-            </p>
-            <div class="relative group cursor-pointer overflow-hidden rounded-xl border border-slate-200">
-              <img
-                  :src="`${s3_BASE_URL}/${selectedTask.prove_complete}`"
-                  alt="Prova de trabalho"
-                  class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-          </div>
-
+        <div v-if="selectedTask.reason_cancelled" class="pt-4 border-t border-slate-100">
+          <p class="text-xs font-bold uppercase tracking-widest text-rose-400 mb-1">Motivo de Cancelamento</p>
+          <p class="text-sm text-rose-600 font-medium bg-rose-50 p-3 rounded-lg border border-rose-100">
+            {{ selectedTask.reason_cancelled }}
+          </p>
         </div>
       </div>
 
