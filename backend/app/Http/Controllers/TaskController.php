@@ -109,7 +109,7 @@ class TaskController extends Controller
                 'key'    => config('filesystems.disks.s3.key'),
                 'secret' => config('filesystems.disks.s3.secret'),
             ],
-            'endpoint'                => config('filesystems.disks.s3.url'), // ← public URL
+            'endpoint'                => config('filesystems.disks.s3.url'),
             'use_path_style_endpoint' => config('filesystems.disks.s3.use_path_style_endpoint'),
         ]);
 

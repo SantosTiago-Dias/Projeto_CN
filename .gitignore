@@ -1,5 +1,5 @@
 minio_storage/*
-data/*
+data/letsencrypt
 .env
 backend/.env
 database/.env

@@ -1,7 +1,7 @@
 FROM dunglas/frankenphp:1.10.1-php8.4 AS base
 
 RUN apt-get update && apt-get install -y \
-    git unzip libzip-dev \
+    git unzip libzip-dev netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
 RUN install-php-extensions pdo_mysql gd intl zip opcache
@@ -30,16 +30,18 @@ ARG USER=appuser
 
 COPY --from=builder /app ./
 
-#Com base na documentação:https://frankenphp.dev/docs/docker/
+# Copy and set up entrypoint
+COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 RUN \
-    # Use "adduser -D ${USER}" for alpine based distros
     useradd ${USER}; \
-    # Add additional capability to bind to port 80 and 443
     setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp; \
-    # Give write access to /config/caddy and /data/caddy
     chown -R ${USER}:${USER} /config/caddy /data/caddy; \
-    # Give Laravel write access to storage and cache
     chown -R ${USER}:${USER} /app/storage /app/bootstrap/cache; \
     chmod -R 775 /app/storage /app/bootstrap/cache
 
 USER ${USER}
+
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]

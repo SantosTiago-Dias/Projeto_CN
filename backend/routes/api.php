@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::post('/upload',[TaskController::class, 'upload']);
+Route::post('/upload',[TaskController::class, 'uploadImage']);
 
 Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
