@@ -4,7 +4,7 @@ import { inject } from 'vue'
 import {destroyEcho} from "@/websocket/echo.js";
 
 export const useAPIStore = defineStore('api', () => {
-    const API_BASE_URL = import.meta.env.VITE_BASE_URL + '/api';
+    const API_BASE_URL = 'http://api.tiagomsantos.pt/api';
 
     //set Barear
     const setBearerToken = (token) => {
