@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['https://app.tiagomsantos.pt'],
 
     'allowed_origins_patterns' => [],
 
