@@ -6,9 +6,8 @@ RUN apt-get update && apt-get install -y \
 
 RUN install-php-extensions pdo_mysql gd intl zip opcache
 
-RUN pecl install redis \
-    && docker-php-ext-enable redis \
-    && docker-php-ext-install pcntl
+RUN pecl install redis && docker-php-ext-enable redis
+RUN docker-php-ext-install pcntl
 
 
 # Build stage
@@ -18,12 +17,9 @@ WORKDIR /app
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-COPY composer.json composer.lock ./
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-scripts
-
 COPY . .
-RUN composer run-script post-autoload-dump
 
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Production stage
 FROM base AS production
