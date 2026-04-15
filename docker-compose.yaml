@@ -14,24 +14,13 @@ services:
 
   frontend:
     container_name: frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-      args:
-        - VITE_BASE_URL=${VITE_BASE_URL}
-        - VITE_REVERB_HOST=${VITE_REVERB_HOST}
-        - VITE_REVERB_PORT=${VITE_REVERB_PORT}
-        - VITE_REVERB_SCHEME=${VITE_REVERB_SCHEME}
-        - VITE_REVERB_APP_KEY=${VITE_REVERB_APP_KEY}
-        - VITE_S3_PUBLIC_URL=${VITE_S3_PUBLIC_URL}
+    image: ghcr.io/santostiago-dias/cloud-frontend:latest
     depends_on:
       - backend
 
   backend:
     container_name: backend
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: ghcr.io/santostiago-dias/cloud-api:latest
     env_file: .env
     environment:
       - SERVER_NAME=:80
@@ -44,9 +33,7 @@ services:
 
   queue-worker:
     container_name: queue-worker
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: ghcr.io/santostiago-dias/cloud-api:latest
     command: php artisan queue:work --verbose --tries=3 --timeout=60
     env_file: .env
     depends_on: [db, redis, backend]
@@ -54,9 +41,7 @@ services:
 
   reverb:
     container_name: reverb
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: ghcr.io/santostiago-dias/cloud-api:latest
     command: php artisan reverb:start --host=0.0.0.0 --port=6001
     env_file: .env
     depends_on: [db, redis, backend]
