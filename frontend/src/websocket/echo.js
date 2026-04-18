@@ -25,7 +25,7 @@ export function getEcho() {
             },
         });
     }
-
+    console.log(echoInstance)
     return echoInstance;
 }
 

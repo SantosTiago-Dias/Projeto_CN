@@ -17,6 +17,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        if (User::all()->count()>0) {
+            return;
+        }
+
         //criar 4 admins
         User::factory()->count(2)->create([
             'role' => 'admin',

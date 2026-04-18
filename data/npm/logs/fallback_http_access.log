@@ -16,3 +16,8 @@
 [14/Apr/2026:21:40:18 +0000] 404 - GET http minio.meicm.pt "/buckets/images/admin/summary" [Client 172.18.0.1] [Length 183] [Gzip 3.21] "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 OPR/129.0.0.0" "-"
 [14/Apr/2026:21:40:18 +0000] 400 - GET http minio.meicm.pt "/favicon.ico" [Client 127.0.0.1] [Length 230] [Gzip -] "-" "-"
 [15/Apr/2026:10:34:42 +0000] 200 - GET http app.meicm.pt "/" [Client 172.18.0.1] [Length 568] [Gzip 1.86] "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 OPR/129.0.0.0" "-"
+[18/Apr/2026:11:19:33 +0000] 404 - GET http minio.meicm.pt "/buckets/images/admin/summary" [Client 172.18.0.1] [Length 183] [Gzip 3.21] "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 OPR/129.0.0.0" "-"
+[18/Apr/2026:11:19:33 +0000] 400 - GET http minio.meicm.pt "/favicon.ico" [Client 127.0.0.1] [Length 230] [Gzip -] "-" "-"
+[18/Apr/2026:12:30:47 +0000] 404 - GET http minio.meicm.pt "/buckets/images/admin/summary" [Client 172.18.0.1] [Length 183] [Gzip 3.21] "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 OPR/129.0.0.0" "-"
+[18/Apr/2026:12:30:47 +0000] 400 - GET http minio.meicm.pt "/favicon.ico" [Client 127.0.0.1] [Length 230] [Gzip -] "-" "-"
+[18/Apr/2026:12:30:50 +0000] 200 - GET http minio.meicm.pt "/" [Client 172.18.0.1] [Length 568] [Gzip 1.86] "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 OPR/129.0.0.0" "-"

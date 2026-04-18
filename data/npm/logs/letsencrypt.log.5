@@ -1,0 +1,235 @@
+2026-04-18 10:12:37,896:DEBUG:certbot._internal.main:certbot version: 5.3.1
+2026-04-18 10:12:37,896:DEBUG:certbot._internal.main:Location of certbot entry point: /opt/certbot/bin/certbot
+2026-04-18 10:12:37,896:DEBUG:certbot._internal.main:Arguments: ['--config', '/etc/letsencrypt.ini', '--work-dir', '/tmp/letsencrypt-lib', '--logs-dir', '/data/logs', '--cert-name', 'npm-11', '--agree-tos', '-m', 'tiago@mail.com', '--preferred-challenges', 'dns', '--domains', '*.tiagomsantos.pt', '--authenticator', 'dns-cloudflare', '--dns-cloudflare-credentials', '/etc/letsencrypt/credentials/credentials-11', '--key-type', 'ecdsa']
+2026-04-18 10:12:37,896:DEBUG:certbot._internal.main:Discovered plugins: PluginsRegistry(PluginEntryPoint#dns-cloudflare,PluginEntryPoint#manual,PluginEntryPoint#null,PluginEntryPoint#standalone,PluginEntryPoint#webroot)
+2026-04-18 10:12:38,502:DEBUG:certbot._internal.log:Root logging level set at 30
+2026-04-18 10:12:38,515:DEBUG:certbot._internal.plugins.selection:Requested authenticator dns-cloudflare and installer None
+2026-04-18 10:12:38,516:DEBUG:certbot._internal.plugins.selection:Single candidate plugin: * dns-cloudflare
+Description: Obtain certificates using a DNS TXT record (if you are using Cloudflare for DNS).
+Interfaces: Authenticator, Plugin
+Entry point: EntryPoint(name='dns-cloudflare', value='certbot_dns_cloudflare._internal.dns_cloudflare:Authenticator', group='certbot.plugins')
+Initialized: <certbot_dns_cloudflare._internal.dns_cloudflare.Authenticator object at 0x703208bbcf10>
+Prep: True
+2026-04-18 10:12:38,518:DEBUG:certbot._internal.plugins.selection:Selected authenticator <certbot_dns_cloudflare._internal.dns_cloudflare.Authenticator object at 0x703208bbcf10> and installer None
+2026-04-18 10:12:38,519:INFO:certbot._internal.plugins.selection:Plugins selected: Authenticator dns-cloudflare, Installer None
+2026-04-18 10:12:38,620:DEBUG:certbot._internal.main:Picked account: <Account(RegistrationResource(body=Registration(key=None, contact=(), agreement=None, status=None, terms_of_service_agreed=None, only_return_existing=None, external_account_binding=None), uri='https://acme-v02.api.letsencrypt.org/acme/acct/3244017961', new_authzr_uri=None, terms_of_service=None), 93cda61b4ab6b11b9027a8ae3ece9ba8, Meta(creation_dt=datetime.datetime(2026, 4, 15, 22, 4, 52, tzinfo=datetime.timezone.utc), creation_host='88194e3a6193', register_to_eff=None))>
+2026-04-18 10:12:38,621:DEBUG:acme.client:Sending GET request to https://acme-v02.api.letsencrypt.org/directory.
+2026-04-18 10:12:38,623:DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): acme-v02.api.letsencrypt.org:443
+2026-04-18 10:12:39,235:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "GET /directory HTTP/1.1" 200 1033
+2026-04-18 10:12:39,251:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 18 Apr 2026 10:12:36 GMT
+Content-Type: application/json
+Content-Length: 1033
+Connection: keep-alive
+Cache-Control: public, max-age=0, no-cache
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "QBqDdpBf5iE": "https://community.letsencrypt.org/t/adding-random-entries-to-the-directory/33417",
+  "keyChange": "https://acme-v02.api.letsencrypt.org/acme/key-change",
+  "meta": {
+    "caaIdentities": [
+      "letsencrypt.org"
+    ],
+    "profiles": {
+      "classic": "https://letsencrypt.org/docs/profiles#classic",
+      "shortlived": "https://letsencrypt.org/docs/profiles#shortlived",
+      "tlsclient": "https://letsencrypt.org/docs/profiles#tlsclient",
+      "tlsserver": "https://letsencrypt.org/docs/profiles#tlsserver"
+    },
+    "termsOfService": "https://letsencrypt.org/documents/LE-SA-v1.6-August-18-2025.pdf",
+    "website": "https://letsencrypt.org"
+  },
+  "newAccount": "https://acme-v02.api.letsencrypt.org/acme/new-acct",
+  "newNonce": "https://acme-v02.api.letsencrypt.org/acme/new-nonce",
+  "newOrder": "https://acme-v02.api.letsencrypt.org/acme/new-order",
+  "renewalInfo": "https://acme-v02.api.letsencrypt.org/acme/renewal-info",
+  "revokeCert": "https://acme-v02.api.letsencrypt.org/acme/revoke-cert"
+}
+2026-04-18 10:12:39,289:DEBUG:certbot._internal.display.obj:Notifying user: Requesting a certificate for *.tiagomsantos.pt
+2026-04-18 10:12:39,311:DEBUG:acme.client:Requesting fresh nonce
+2026-04-18 10:12:39,313:DEBUG:acme.client:Sending HEAD request to https://acme-v02.api.letsencrypt.org/acme/new-nonce.
+2026-04-18 10:12:39,501:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "HEAD /acme/new-nonce HTTP/1.1" 200 0
+2026-04-18 10:12:39,503:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 18 Apr 2026 10:12:37 GMT
+Connection: keep-alive
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Replay-Nonce: ez21D-ebwUbcm-QwOJeo4sB_yqWEzrsjYzZ-3JI1ERVJEyqinxU
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+
+2026-04-18 10:12:39,507:DEBUG:acme.client:Storing nonce: ez21D-ebwUbcm-QwOJeo4sB_yqWEzrsjYzZ-3JI1ERVJEyqinxU
+2026-04-18 10:12:39,510:DEBUG:acme.client:JWS payload:
+b'{\n  "identifiers": [\n    {\n      "type": "dns",\n      "value": "*.tiagomsantos.pt"\n    }\n  ]\n}'
+2026-04-18 10:12:39,516:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/new-order:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMzI0NDAxNzk2MSIsICJub25jZSI6ICJlejIxRC1lYndVYmNtLVF3T0plbzRzQl95cVdFenJzall6Wi0zSkkxRVJWSkV5cWlueFUiLCAidXJsIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL25ldy1vcmRlciJ9",
+  "signature": "EEGbBjmapBXxhcoY2ZDjGY8SSYmCEfPgviom5Yq68oyZimIoGZojoYefOlmdZZ4fmB4vsTCZvfuyAusBO3yfgv2qGzUnWs1_NwD4UcbT0TZ60YZr2LPQQ5d7MfA10yw4If5Tx7zNJsMNT5bPzwxQC-TiLmLZipKL8ahiUDXUgMndiS0q2Av4V_tR9YH92CB1LYt01FmOX7cN3AxgRmqC8biQQQBKTcHePOmf8g3HUg5wBrjsRFWqYkDqBye_wAQFk_f4a8lA4bPlE1AKf3JvSPHdCoOZ7ZpOfERrX8Ts5VkyBoIqCFTq4AWNa3ja_pWJY4zbNudmWrEfL08t96Dpbw",
+  "payload": "ewogICJpZGVudGlmaWVycyI6IFsKICAgIHsKICAgICAgInR5cGUiOiAiZG5zIiwKICAgICAgInZhbHVlIjogIioudGlhZ29tc2FudG9zLnB0IgogICAgfQogIF0KfQ"
+}
+2026-04-18 10:12:39,815:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/new-order HTTP/1.1" 201 351
+2026-04-18 10:12:39,819:DEBUG:acme.client:Received response:
+HTTP 201
+Server: nginx
+Date: Sat, 18 Apr 2026 10:12:37 GMT
+Content-Type: application/json
+Content-Length: 351
+Connection: keep-alive
+Boulder-Requester: 3244017961
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Location: https://acme-v02.api.letsencrypt.org/acme/order/3244017961/501913605241
+Replay-Nonce: ez21D-ebjs-Dr9eCjggfmIJKaQMNEVvzickN6z-x5v1g9MP1M9k
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "status": "pending",
+  "expires": "2026-04-25T10:12:37Z",
+  "identifiers": [
+    {
+      "type": "dns",
+      "value": "*.tiagomsantos.pt"
+    }
+  ],
+  "authorizations": [
+    "https://acme-v02.api.letsencrypt.org/acme/authz/3244017961/690046636621"
+  ],
+  "finalize": "https://acme-v02.api.letsencrypt.org/acme/finalize/3244017961/501913605241"
+}
+2026-04-18 10:12:39,823:DEBUG:acme.client:Storing nonce: ez21D-ebjs-Dr9eCjggfmIJKaQMNEVvzickN6z-x5v1g9MP1M9k
+2026-04-18 10:12:39,826:DEBUG:acme.client:JWS payload:
+b''
+2026-04-18 10:12:39,831:DEBUG:acme.client:Sending POST request to https://acme-v02.api.letsencrypt.org/acme/authz/3244017961/690046636621:
+{
+  "protected": "eyJhbGciOiAiUlMyNTYiLCAia2lkIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2FjY3QvMzI0NDAxNzk2MSIsICJub25jZSI6ICJlejIxRC1lYmpzLURyOWVDamdnZm1JSkthUU1ORVZ2emlja042ei14NXYxZzlNUDFNOWsiLCAidXJsIjogImh0dHBzOi8vYWNtZS12MDIuYXBpLmxldHNlbmNyeXB0Lm9yZy9hY21lL2F1dGh6LzMyNDQwMTc5NjEvNjkwMDQ2NjM2NjIxIn0",
+  "signature": "bImVlrNNKuzTTr6ny4830Fkk2DRqTB7xpApBQK78wkjUdsJpb2EDumY7WBmGykeXu_I6rqamTPFW9bJe1-z8uW13U944MpsQ-BEFbmsHXuTqzjUGKDTq0NuCGCiWHzIS_NSpfpnyvHZ-JcsN8wRUzk5N86G6nIPkOzUt_POWedXYsyqK_mJ-BcC8yaekVHDG-YiZZ8DxcDRk7TPPDifxYAZJJuw25EyuI8nE2XCnLyD7qRwaWMpkVxPKKeggmw25IxPAHwLV2E0t0ipopaEs5PRPSD8sgt6JZVZNeZIKL2OPwKo2eCJU1QOaGpM4yFXSWOCKWxSUe5NZl__qH7VIjA",
+  "payload": ""
+}
+2026-04-18 10:12:40,028:DEBUG:urllib3.connectionpool:https://acme-v02.api.letsencrypt.org:443 "POST /acme/authz/3244017961/690046636621 HTTP/1.1" 200 397
+2026-04-18 10:12:40,031:DEBUG:acme.client:Received response:
+HTTP 200
+Server: nginx
+Date: Sat, 18 Apr 2026 10:12:37 GMT
+Content-Type: application/json
+Content-Length: 397
+Connection: keep-alive
+Boulder-Requester: 3244017961
+Cache-Control: public, max-age=0, no-cache
+Link: <https://acme-v02.api.letsencrypt.org/directory>;rel="index"
+Replay-Nonce: ez21D-ebDD0WUPYCHJcrBvj8Piykh8ufIO0BIGH26hb6bJNrFrE
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=604800
+
+{
+  "identifier": {
+    "type": "dns",
+    "value": "tiagomsantos.pt"
+  },
+  "status": "pending",
+  "expires": "2026-04-25T10:12:37Z",
+  "challenges": [
+    {
+      "type": "dns-01",
+      "url": "https://acme-v02.api.letsencrypt.org/acme/chall/3244017961/690046636621/JBBLYg",
+      "status": "pending",
+      "token": "Zrn9QoW7Ym5AhVnmWfrP0WZdNo7zJ9WQ7tvVksuQTp4"
+    }
+  ],
+  "wildcard": true
+}
+2026-04-18 10:12:40,035:DEBUG:acme.client:Storing nonce: ez21D-ebDD0WUPYCHJcrBvj8Piykh8ufIO0BIGH26hb6bJNrFrE
+2026-04-18 10:12:40,038:INFO:certbot._internal.auth_handler:Performing the following challenges:
+2026-04-18 10:12:40,040:INFO:certbot._internal.auth_handler:dns-01 challenge for Identifier(typ=IdentifierType(dns), value='tiagomsantos.pt')
+2026-04-18 10:12:40,081:DEBUG:urllib3.util.retry:Converted retries value: 5 -> Retry(total=5, connect=None, read=None, redirect=None, status=None)
+2026-04-18 10:12:40,086:DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): api.cloudflare.com:443
+2026-04-18 10:12:40,495:DEBUG:urllib3.connectionpool:https://api.cloudflare.com:443 "GET /client/v4/zones?name=tiagomsantos.pt&per_page=1 HTTP/1.1" 403 None
+2026-04-18 10:12:40,509:DEBUG:certbot._internal.error_handler:Encountered exception:
+Traceback (most recent call last):
+  File "/opt/certbot/lib/python3.11/site-packages/certbot_dns_cloudflare/_internal/dns_cloudflare.py", line 197, in _find_zone_id
+    zones = self.cf.zones.get(params=params)  # zones | pylint: disable=no-member
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/certbot/lib/python3.11/site-packages/CloudFlare/cloudflare.py", line 747, in get
+    raise CloudFlareAPIError(e=e) from None
+CloudFlare.exceptions.CloudFlareAPIError: Invalid access token
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/certbot/lib/python3.11/site-packages/certbot/_internal/auth_handler.py", line 84, in handle_authorizations
+    resps = self.auth.perform(achalls)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/certbot/lib/python3.11/site-packages/certbot/plugins/dns_common.py", line 78, in perform
+    self._perform(domain, validation_domain_name, validation)
+  File "/opt/certbot/lib/python3.11/site-packages/certbot_dns_cloudflare/_internal/dns_cloudflare.py", line 75, in _perform
+    self._get_cloudflare_client().add_txt_record(domain, validation_name, validation, self.ttl)
+  File "/opt/certbot/lib/python3.11/site-packages/certbot_dns_cloudflare/_internal/dns_cloudflare.py", line 120, in add_txt_record
+    zone_id = self._find_zone_id(domain)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/certbot/lib/python3.11/site-packages/certbot_dns_cloudflare/_internal/dns_cloudflare.py", line 214, in _find_zone_id
+    raise errors.PluginError('Error determining zone_id: {0} {1}. Please confirm '
+certbot.errors.PluginError: Error determining zone_id: 9109 Invalid access token. Please confirm that you have supplied valid Cloudflare API credentials. (Did you enter a valid Cloudflare Token?)
+
+2026-04-18 10:12:40,513:DEBUG:certbot._internal.error_handler:Calling registered functions
+2026-04-18 10:12:40,516:INFO:certbot._internal.auth_handler:Cleaning up challenges
+2026-04-18 10:12:40,533:DEBUG:urllib3.util.retry:Converted retries value: 5 -> Retry(total=5, connect=None, read=None, redirect=None, status=None)
+2026-04-18 10:12:40,536:DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): api.cloudflare.com:443
+2026-04-18 10:12:40,940:DEBUG:urllib3.connectionpool:https://api.cloudflare.com:443 "GET /client/v4/zones?name=tiagomsantos.pt&per_page=1 HTTP/1.1" 403 None
+2026-04-18 10:12:40,945:DEBUG:certbot_dns_cloudflare._internal.dns_cloudflare:Encountered error finding zone_id during deletion: Error determining zone_id: 9109 Invalid access token. Please confirm that you have supplied valid Cloudflare API credentials. (Did you enter a valid Cloudflare Token?)
+2026-04-18 10:12:40,962:DEBUG:certbot._internal.log:Exiting abnormally:
+Traceback (most recent call last):
+  File "/opt/certbot/lib/python3.11/site-packages/certbot_dns_cloudflare/_internal/dns_cloudflare.py", line 197, in _find_zone_id
+    zones = self.cf.zones.get(params=params)  # zones | pylint: disable=no-member
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/certbot/lib/python3.11/site-packages/CloudFlare/cloudflare.py", line 747, in get
+    raise CloudFlareAPIError(e=e) from None
+CloudFlare.exceptions.CloudFlareAPIError: Invalid access token
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/certbot/bin/certbot", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/opt/certbot/lib/python3.11/site-packages/certbot/main.py", line 18, in main
+    return internal_main.main(cli_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/certbot/lib/python3.11/site-packages/certbot/_internal/main.py", line 1886, in main
+    return config.func(config, plugins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/certbot/lib/python3.11/site-packages/certbot/_internal/main.py", line 1598, in certonly
+    lineage = _get_and_save_cert(le_client, config, sans, certname, lineage)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/certbot/lib/python3.11/site-packages/certbot/_internal/main.py", line 143, in _get_and_save_cert
+    lineage = le_client.obtain_and_enroll_certificate(sans, certname)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/certbot/lib/python3.11/site-packages/certbot/_internal/client.py", line 533, in obtain_and_enroll_certificate
+    cert, chain, key, _ = self.obtain_certificate(sans)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/certbot/lib/python3.11/site-packages/certbot/_internal/client.py", line 434, in obtain_certificate
+    orderr = self._get_order_and_authorizations(csr.data, self.config.allow_subset_of_names)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/certbot/lib/python3.11/site-packages/certbot/_internal/client.py", line 512, in _get_order_and_authorizations
+    authzr = self.auth_handler.handle_authorizations(orderr, self.config, best_effort)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/certbot/lib/python3.11/site-packages/certbot/_internal/auth_handler.py", line 84, in handle_authorizations
+    resps = self.auth.perform(achalls)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/certbot/lib/python3.11/site-packages/certbot/plugins/dns_common.py", line 78, in perform
+    self._perform(domain, validation_domain_name, validation)
+  File "/opt/certbot/lib/python3.11/site-packages/certbot_dns_cloudflare/_internal/dns_cloudflare.py", line 75, in _perform
+    self._get_cloudflare_client().add_txt_record(domain, validation_name, validation, self.ttl)
+  File "/opt/certbot/lib/python3.11/site-packages/certbot_dns_cloudflare/_internal/dns_cloudflare.py", line 120, in add_txt_record
+    zone_id = self._find_zone_id(domain)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/certbot/lib/python3.11/site-packages/certbot_dns_cloudflare/_internal/dns_cloudflare.py", line 214, in _find_zone_id
+    raise errors.PluginError('Error determining zone_id: {0} {1}. Please confirm '
+certbot.errors.PluginError: Error determining zone_id: 9109 Invalid access token. Please confirm that you have supplied valid Cloudflare API credentials. (Did you enter a valid Cloudflare Token?)
+2026-04-18 10:12:40,973:ERROR:certbot._internal.log:Error determining zone_id: 9109 Invalid access token. Please confirm that you have supplied valid Cloudflare API credentials. (Did you enter a valid Cloudflare Token?)
