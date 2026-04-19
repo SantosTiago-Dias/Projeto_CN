@@ -76,4 +76,4 @@ Acesse `http://localhost:8081`.
 
 ## Objetivo
 
-Esta aplicação serve como um projeto acadêmico para demonstrar uma solução cloud-native que integra API, frontend moderno, filas, armazenamento de objetos e infraestrutura em contêineres.
+Esta aplicação serve como um projeto acadêmico para demonstrar uma solução cloud-native que integra API, frontend moderno, base de dados e infraestrutura em contêineres.
