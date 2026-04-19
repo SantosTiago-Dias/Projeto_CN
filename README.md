@@ -4,8 +4,8 @@ Projeto da cadeira de Computação em Nuvem (Mestrado).
 
 Este repositório contém uma aplicação full-stack composta por:
 
-- Backend em **Laravel** (PHP) com API, jobs, filas e broadcast.
-- Frontend em **Vue 3** usando **Vite**.
+- Backend em **Laravel** (PHP) com API, jobs e broadcast.
+- Frontend em **Vue 3**.
 - Orquestração com **Docker Compose** para executar serviços como MySQL, Redis, MinIO, Adminer e um proxy reverso.
 
 ## Arquitetura do Projeto
@@ -20,7 +20,6 @@ Este repositório contém uma aplicação full-stack composta por:
 
 - Laravel
 - Vue 3
-- Vite
 - MySQL
 - Redis
 - MinIO
@@ -63,9 +62,7 @@ docker compose up -d --build
 ```
 
 
-- Inspecionar banco via Adminer:
-
-Acesse `http://localhost:8081`.
+- Inspecionar dados pelo Adminer: `http://localhost:8081`.
 
 ## Observações
 
