@@ -1,5 +1,0 @@
-2026/04/12 21:05:31 [error] 396#396: unexpected DNS response for reverb
-2026/04/14 16:48:43 [error] 206#206: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.18.0.1, server: nginxproxymanager, request: "GET /api/ HTTP/1.1", upstream: "http://127.0.0.1:3000/", host: "localhost:81", referrer: "http://localhost:81/"
-2026/04/14 16:48:43 [error] 206#206: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.18.0.1, server: nginxproxymanager, request: "GET /api/reports/hosts HTTP/1.1", upstream: "http://127.0.0.1:3000/reports/hosts", host: "localhost:81", referrer: "http://localhost:81/"
-2026/04/14 17:03:44 [error] 206#206: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.18.0.1, server: nginxproxymanager, request: "GET /api/tokens HTTP/1.1", upstream: "http://127.0.0.1:3000/tokens", host: "localhost:81", referrer: "http://localhost:81/nginx/proxy"
-2026/04/14 21:58:58 [error] 324#324: unexpected DNS response for reverb

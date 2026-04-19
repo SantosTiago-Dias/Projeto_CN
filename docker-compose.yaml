@@ -29,10 +29,7 @@ services:
 
   backend:
     container_name: backend
-    #image: ghcr.io/santostiago-dias/cloud-api:latest
-    build:
-      context: backend
-      dockerfile: Dockerfile
+    image: ghcr.io/santostiago-dias/cloud-api:latest
     env_file: .env
     environment:
       - SERVER_NAME=:80
@@ -46,7 +43,7 @@ services:
 
   queue-worker:
     container_name: queue-worker
-    #image: ghcr.io/santostiago-dias/cloud-api:latest
+    image: ghcr.io/santostiago-dias/cloud-api:latest
     build:
       context: backend
       dockerfile: Dockerfile
@@ -62,7 +59,7 @@ services:
 
   reverb:
     container_name: reverb
-    #image: ghcr.io/santostiago-dias/cloud-api:latest
+    image: ghcr.io/santostiago-dias/cloud-api:latest
     build:
       context: backend
       dockerfile: Dockerfile
