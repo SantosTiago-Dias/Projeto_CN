@@ -70,6 +70,8 @@ docker compose up -d --build
 - O serviço `create-bucket` cria automaticamente um bucket público `images` no MinIO.
 - O container `queue-worker` processa jobs em background usando `php artisan queue:work`.
 - Ajuste as variáveis `MINIO_ROOT_USER` e `MINIO_ROOT_PASSWORD` em `.env` para o MinIO.
+- Exite um `admin` default: `email`:`admin@mail.com` e `password`:`123`
+- Exite um `worker` default: `email`:`worker@mail.com` e `password`:`123`
 
 ## Objetivo
 
